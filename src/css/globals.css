@@ -6,7 +6,7 @@ html {
     box-sizing: inherit;
 }
 body {
-    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(7,13,37,0.5747549019607843) 100%), url(../../img/pampero_fondo2.webp);
+    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(7,13,37,0.5747549019607843) 100%), url(../img/pampero_fondo2.webp);
     background-repeat: unset;
     background-position: center;
     background-size: cover;
