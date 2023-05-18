@@ -1,0 +1,36 @@
+.header {
+    text-align: center;
+}
+.header h1 {
+    color: #FFF;
+    font-size: 5rem;
+    margin-top: 7rem;
+}
+.borderImg {
+    border-radius: 50%;
+    margin: 0 auto;
+}
+.nav {
+    display: flex;
+    justify-content: center;
+    column-gap: 3rem;
+    margin-bottom: 3rem;
+}
+.nav .nav_enlace {
+    color: #FFF;
+    font-size: 2.4rem;
+    position: relative;
+    text-align: center;
+}
+.nav .nav_enlace::before {
+    content: '';
+    border-bottom: 2px solid #FFF;
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    transition: width .3s linear;
+}
+.nav .nav_enlace:hover::before {
+    width: 100%;
+}

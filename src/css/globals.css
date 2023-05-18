@@ -1,0 +1,28 @@
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+body {
+    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(7,13,37,0.5747549019607843) 100%), url(../../img/pampero_fondo2.webp);
+    background-repeat: unset;
+    background-position: center;
+    background-size: cover;
+    font-size: 2.4rem;
+    line-height: 1.5;
+    color: #FFF;
+    min-height: 90rem;
+}
+.contenedor {
+    max-width: 120rem;
+    width: 95%;
+    margin: 0 auto;
+}
+img{
+    max-width: 100%;
+}
+a {
+    text-decoration: none;
+}
