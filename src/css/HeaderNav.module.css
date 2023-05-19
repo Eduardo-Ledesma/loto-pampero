@@ -1,3 +1,8 @@
+.contenedor {
+    max-width: 120rem;
+    width: 95%;
+    margin: 0 auto;
+}
 .header {
     text-align: center;
 }
@@ -6,32 +11,22 @@
     font-size: 5rem;
     margin-top: 7rem;
 }
-.borderImg {
-    max-width: 15rem;
-    border-radius: 50%;
-    margin: 0 auto;
-}
-.nav {
+.footer {
     display: flex;
     justify-content: center;
-    column-gap: 3rem;
+}
+.icons {
+    margin-top: 2rem;
+    display: grid;
+    max-width: 20rem;
+    grid-template-columns: repeat(3, 1fr);
     margin-bottom: 3rem;
 }
-.nav .nav_enlace {
-    color: #FFF;
-    font-size: 2.4rem;
-    position: relative;
-    text-align: center;
+@media (min-width: 768px) {
+    .footer {
+        justify-content: right;
+    }
 }
-.nav .nav_enlace::before {
-    content: '';
-    border-bottom: 2px solid #FFF;
-    position: absolute;
-    left: 0;
-    bottom: -4px;
-    width: 0%;
-    transition: width .3s linear;
-}
-.nav .nav_enlace:hover::before {
-    width: 100%;
+.icons img {
+    max-width: 5rem;
 }

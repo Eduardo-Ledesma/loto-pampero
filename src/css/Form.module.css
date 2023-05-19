@@ -17,11 +17,15 @@
   display: block;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 768px) {
   .form_div {
       display: grid;
       grid-template-columns: 1fr 5fr;
-      column-gap: 2rem;
+      column-gap: 4rem;
+  }
+  .form_div label {
+    width: 8rem;
+    margin-top: 1.5rem;
   }
   
 }
@@ -31,19 +35,14 @@
   background: none;
   border: none;
   border-bottom: 1px solid #FFF;
-  margin-top: 1rem;
   margin-bottom: 3rem;
   color: #FFF;
   font-size: 2rem;
 }
-@media (min-width: 480px) {
-  .form_div input {
-      margin-top: 0;
-  }
-}
 .form .form_btn {
   display: flex;
   justify-content: center;
+  margin-top: 3rem;
 }
 .form .loginBtn {
   width: 100%;
@@ -65,15 +64,37 @@
   background-color: #173ee8;
   cursor: pointer;
 }
-.icons {
+.input_reset {
+  width: 50%;
+  padding: 1rem;
+  background: none;
+  border: none;
+  border: 1px solid #FFF;
+  color: #FFF;
+  font-size: 2rem;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  column-gap: 3rem;
+  margin-bottom: 3rem;
+}
+.nav_enlace {
+  color: #FFF;
+  font-size: 2.4rem;
+  position: relative;
   text-align: center;
-  margin-top: 2rem;
 }
-@media (min-width: 480px) {
-  .icons {
-      text-align: right;
-  }
+.nav_enlace::before {
+  content: '';
+  border-bottom: 2px solid #FFF;
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  transition: width .3s linear;
 }
-.icons img {
-  max-width: 5rem;
+.nav_enlace:hover::before {
+  width: 100%;
 }
