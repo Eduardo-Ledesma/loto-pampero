@@ -6,9 +6,10 @@ import AuthLayout from './layouts/AuthLayout'
 import Index from './pages/Index'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
-import Userlogged from './pages/Userlogged'
 import ProtectedLayout from './layouts/ProtectedLayout'
-
+import Userlogged, { loader as clientesLoader } from './pages/Userlogged'
+import NewClient, { action as newClientAction } from './pages/NewClient'
+import ErrorPage from './components/ErrorPage'
 
 
 const router = createBrowserRouter([
@@ -36,8 +37,15 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Userlogged />
-      }
+        element: <Userlogged />,
+        loader: clientesLoader,
+        errorElement: <ErrorPage />
+      },
+      {
+        path: 'newclient',
+        element: <NewClient />,
+        action: newClientAction
+      },
     ]
   }
 ])

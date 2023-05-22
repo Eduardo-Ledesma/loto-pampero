@@ -6,7 +6,7 @@ const Aside = () => {
             <h2 className="text-4xl pt-1 font-bold">Bienvenido/a NombreUsuario!</h2>
 
             <nav>
-                <Link to="/"
+                <Link to="newclient"
                     className="bg-sky-600 py-4 rounded-lg text-3xl block max-w-md mx-auto md:max-w-full
                     text-center uppercase font-bold mt-20 hover:bg-sky-700 transition-colors"
                 >

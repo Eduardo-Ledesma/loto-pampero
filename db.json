@@ -1,0 +1,44 @@
+{
+    "clients" : [
+        {
+            "id": 1,
+            "fullName": "Nora Higonet",
+            "number1": 12,
+            "number2": 45,
+            "number3": 32,
+            "number4": 76
+        },
+        {
+            "id": 2,
+            "fullName": "Raúl Ledesma",
+            "number1": 11,
+            "number2": 14,
+            "number3": 15,
+            "number4": 16
+        },
+        {
+            "id": 3,
+            "fullName": "Daniel Gutierrez",
+            "number1": 21,
+            "number2": 23,
+            "number3": 24,
+            "number4": 25
+        },
+        {
+            "id": 4,
+            "fullName": "Alfredo Fetter",
+            "number1": 56,
+            "number2": 58,
+            "number3": 75,
+            "number4": 45
+        },
+        {
+            "id": 5,
+            "fullName": "Facundo Ledesma",
+            "number1": 54,
+            "number2": 23,
+            "number3": 54,
+            "number4": 87
+        }
+    ]
+}
