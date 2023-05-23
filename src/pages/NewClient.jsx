@@ -1,6 +1,7 @@
-import { useNavigate, Form, useActionData } from "react-router-dom"
+import { useNavigate, Form, useActionData, redirect } from "react-router-dom"
 import FormNewClient from "../components/FormNewClient"
 import Error from "../components/Error"
+import { addClient } from "../api/clients"
 
 export async function action({request}) {
 
@@ -14,17 +15,16 @@ export async function action({request}) {
         error.push('Todos los campos son obligatorios');
         return error
     }
-    console.log('guardando cliente');
+    await addClient(data)
 
     
-    return {}
+    return redirect('/userlogged')
 }
 
 const NewClient = () => {
 
     const navigate = useNavigate()
     const error = useActionData()
-    console.log(error);
 
     return (
     <>
@@ -33,7 +33,7 @@ const NewClient = () => {
         <div className="flex justify-center md:justify-end">
             <button
                 type="button"
-                className="bg-blue-800 font-bold px-4 py-1 mb-20 rounded-lg uppercase"
+                className="bg-blue-800 font-bold px-4 py-1 mb-20 rounded-lg uppercase transition-colors hover:bg-blue-700"
                 onClick={() => navigate(-1)}
             >
                 Volver
@@ -46,6 +46,7 @@ const NewClient = () => {
             <Form
                 method="POST"
             >
+            <legend className="text-center mb-20 text-5xl font-bold">Completa los siguientes campos</legend>
                 <FormNewClient />
             
             <input type="submit"  value="Cargar Nuevo Cliente"

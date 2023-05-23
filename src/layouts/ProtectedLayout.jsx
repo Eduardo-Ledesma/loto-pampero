@@ -2,6 +2,7 @@ import HeaderLogged from "../components/HeaderLogged"
 import Aside from "../components/Aside"
 import { Outlet } from "react-router-dom"
 
+// Vista del vendedor una vez iniciada la sesión
 const ProtectedLayout = () => {
     return (
     <>

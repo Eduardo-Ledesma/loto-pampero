@@ -7,13 +7,14 @@ import Index from './pages/Index'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 import ProtectedLayout from './layouts/ProtectedLayout'
-import Userlogged, { loader as clientesLoader } from './pages/Userlogged'
+import Userlogged, { loader as clientsLoader } from './pages/Userlogged'
 import NewClient, { action as newClientAction } from './pages/NewClient'
+import EditClient, { loader as EditClientLoader, action as EditClientAction } from './pages/EditClient'
 import ErrorPage from './components/ErrorPage'
 
 
 const router = createBrowserRouter([
-  {
+  { // Vista general antes de iniciar sesión
     path: '/',
     element: <AuthLayout />,
     children: [
@@ -31,21 +32,29 @@ const router = createBrowserRouter([
       }     
     ]
   },
-  {
+  { // Vista del vendedor una vez iniciada sesión
     path: '/userlogged',
     element: <ProtectedLayout />,
     children: [
       {
         index: true,
         element: <Userlogged />,
-        loader: clientesLoader,
+        loader: clientsLoader,
         errorElement: <ErrorPage />
       },
       {
         path: 'newclient',
         element: <NewClient />,
-        action: newClientAction
+        action: newClientAction,
+        errorElement: <ErrorPage />
       },
+      {
+        path: 'editClient/:clientId',
+        element: <EditClient />,
+        loader: EditClientLoader,
+        action: EditClientAction,
+        errorElement: <ErrorPage />
+      }
     ]
   }
 ])

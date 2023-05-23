@@ -1,9 +1,9 @@
 import { useLoaderData } from "react-router-dom"
-import { getClients } from "../api/clients"
+import { showClients } from "../api/clients"
 import Clients from "../components/Clients"
 
 export async function loader() {
-    const clients = await getClients()
+    const clients = await showClients()
     return clients
 }
 
