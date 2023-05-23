@@ -9,7 +9,10 @@ import ResetPassword from './pages/ResetPassword'
 import ProtectedLayout from './layouts/ProtectedLayout'
 import Userlogged, { loader as clientsLoader } from './pages/Userlogged'
 import NewClient, { action as newClientAction } from './pages/NewClient'
-import EditClient, { loader as EditClientLoader, action as EditClientAction } from './pages/EditClient'
+import EditClient, { loader as editClientLoader, action as editClientAction } from './pages/EditClient'
+import { action as deleteClientAction } from './components/Clients'
+import NewLottery, { loader as newLotteryLoader, action as newLotteryAction } from './pages/NewLottery'
+import { action as deleteLotteryAction } from './components/Lottery'
 import ErrorPage from './components/ErrorPage'
 
 
@@ -49,11 +52,26 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />
       },
       {
+        path: 'newlottery',
+        element: <NewLottery />,
+        loader: newLotteryLoader,
+        action: newLotteryAction,
+        errorElement: <ErrorPage />
+      },
+      {
         path: 'editClient/:clientId',
         element: <EditClient />,
-        loader: EditClientLoader,
-        action: EditClientAction,
+        loader: editClientLoader,
+        action: editClientAction,
         errorElement: <ErrorPage />
+      },
+      {
+        path: 'deleteClient/:clientId',
+        action: deleteClientAction
+      },
+      {
+        path: 'deleteLottery/:lotteryId',
+        action: deleteLotteryAction
       }
     ]
   }

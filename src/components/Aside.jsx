@@ -13,7 +13,7 @@ const Aside = () => {
                     Cargar Cliente
                 </Link>
 
-                <Link to="/"
+                <Link to="newlottery"
                     className="bg-sky-600 py-4 rounded-lg text-3xl block max-w-md mx-auto md:max-w-full 
                     text-center uppercase font-bold mt-12 hover:bg-sky-700 transition-colors"
                 >

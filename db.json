@@ -9,22 +9,6 @@
       "number4": 76
     },
     {
-      "id": 2,
-      "fullName": "Raúl Ledesma",
-      "number1": 11,
-      "number2": 14,
-      "number3": 15,
-      "number4": 16
-    },
-    {
-      "fullName": "Federico Gutierrez",
-      "number1": "21",
-      "number2": "11",
-      "number3": "24",
-      "number4": "25",
-      "id": 3
-    },
-    {
       "id": 4,
       "fullName": "Alfredo Fetter",
       "number1": 56,
@@ -33,20 +17,78 @@
       "number4": 45
     },
     {
-      "fullName": "Andres Ledesma",
-      "number1": "54",
-      "number2": "23",
-      "number3": "99",
-      "number4": "87",
-      "id": 5
+      "fullName": "Raúl Ledesma",
+      "number1": "15",
+      "number2": "64",
+      "number3": "37",
+      "number4": "12",
+      "id": 7
     },
     {
-      "fullName": "Janis Schenkel",
-      "number1": "11",
-      "number2": "12",
-      "number3": "13",
-      "number4": "14",
-      "id": 6
+      "fullName": "Horacio Real",
+      "number1": "83",
+      "number2": "23",
+      "number3": "41",
+      "number4": "64",
+      "id": 8
+    },
+    {
+      "fullName": "Facundo Ledesma",
+      "number1": "77",
+      "number2": "88",
+      "number3": "99",
+      "number4": "55",
+      "id": 9
+    },
+    {
+      "fullName": "Daniel Gutierrez",
+      "number1": "12",
+      "number2": "52",
+      "number3": "12",
+      "number4": "11",
+      "id": 10
+    }
+  ],
+  "lottery": [
+    {
+      "fullName": "Raúl Ledesma",
+      "number1": "15",
+      "number2": "64",
+      "number3": "37",
+      "number4": "12",
+      "id": 7
+    },
+    {
+      "fullName": "Horacio Real",
+      "number1": "83",
+      "number2": "23",
+      "number3": "41",
+      "number4": "64",
+      "id": 8
+    },
+    {
+      "fullName": "Facundo Ledesma",
+      "number1": "77",
+      "number2": "88",
+      "number3": "99",
+      "number4": "55",
+      "id": 9
+    },
+    {
+      "fullName": "Daniel Gutierrez",
+      "number1": "12",
+      "number2": "52",
+      "number3": "12",
+      "number4": "11",
+      "id": 10
+    },
+    {
+      "fullName": "Eduardo Ledesma",
+      "number1": "27",
+      "number2": "22",
+      "number3": "21",
+      "number4": "71",
+      "id": 11
     }
   ]
 }

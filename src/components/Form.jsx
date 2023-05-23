@@ -3,8 +3,6 @@ import styles from '../css/Form.module.css'
 
 const Form = () => {
 
-
-
     return (
         <>
             <form 

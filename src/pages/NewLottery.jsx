@@ -1,33 +1,37 @@
-import { useNavigate, Form, useActionData, redirect } from "react-router-dom"
-import FormNewClient from "../components/FormNewClient"
+import { useNavigate, Form, useActionData, redirect, useLoaderData } from "react-router-dom"
+import FormNewLottery from "../components/FormNewLottery"
+import { addLottery, showClients } from "../api/clients"
 import Error from "../components/Error"
-import { addClient } from "../api/clients"
+
+export async function loader() {
+    const clients = await showClients()
+    return clients
+}
 
 export async function action({request}) {
-
     const formData = await request.formData()
     const data = Object.fromEntries(formData)
 
     // Validate
-    const fullName = formData.get('fullName')
     const error = []
-    if(Object.values(data).includes('') || !fullName.trim()) {
+    if(Object.values(data).includes('')) {
         error.push('Todos los campos son obligatorios');
         return error
     }
-    await addClient(data)
 
+    await addLottery(data)
     return redirect('/userlogged')
 }
 
-const NewClient = () => {
+const NewLottery = () => {
 
-    const navigate = useNavigate()
+    const clients = useLoaderData()
     const error = useActionData()
+    const navigate = useNavigate()
 
     return (
-    <>
-        <h2 className="mt-10 md:mt-0 mb-20 text-6xl font-black underline text-center lg:text-left">Nuevo cliente</h2>
+        <>
+        <h2 className="mt-10 md:mt-0 mb-20 text-6xl font-black underline text-center lg:text-left">Nuevo loto</h2>
 
         <div className="flex justify-center md:justify-end">
             <button
@@ -46,9 +50,11 @@ const NewClient = () => {
                 method="POST"
             >
             <legend className="text-center mb-20 text-5xl font-bold">Completa los siguientes campos</legend>
-                <FormNewClient />
+                <FormNewLottery 
+                    clients={clients}
+                />
             
-            <input type="submit"  value="Cargar Nuevo Cliente"
+            <input type="submit"  value="Cargar Nuevo Loto"
                     className="uppercase bg-stone-800 font-bold rounded-lg px-4 py-2 mt-20 
                     hover:cursor-pointer hover:bg-stone-700 transition-colors w-full lg:w-3/4 lg:block mx-auto"
             />
@@ -58,4 +64,4 @@ const NewClient = () => {
     )
 }
 
-export default NewClient
+export default NewLottery
