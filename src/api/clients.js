@@ -85,6 +85,29 @@ export async function addLottery(data) {
     }
 }
 
+// Obtener un loto en específico para editarlo
+export async function getLottery(id) {
+    const response = await fetch(`${urlLottery}/${id}`)
+    const lottery = await response.json()
+    return lottery
+}
+
+// Confirmar editar loto
+export async function editLottery(id, data) {
+    try {
+        const response = await fetch(`${urlLottery}/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        await response.json()
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // Eliminar loto
 export async function deleteLottery(id) {
     try {

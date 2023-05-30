@@ -12,9 +12,10 @@ export async function loader() {
 const Userlogged = () => {
 
     const {clients, lotteryAll} = useLoaderData()
-    
+
     return (
         <>
+            
             <h2 className="mt-10 md:mt-0 mb-20 text-6xl font-black underline text-center lg:text-left">Clientes</h2>
             {clients.length ? (
                 <table className="w-full mt-10 table-auto bg-indigo-800 rounded-lg bg-opacity-70">
