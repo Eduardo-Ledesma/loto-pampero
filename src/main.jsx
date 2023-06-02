@@ -13,8 +13,8 @@ import ResetPassword from './pages/ResetPassword'
 import ProtectedLayout from './layouts/ProtectedLayout'
 import Userlogged, { loader as clientsLoader } from './pages/Userlogged'
 
-import NewClient, { action as newClientAction } from './pages/NewClient'
-import EditClient, { loader as editClientLoader, action as editClientAction } from './pages/EditClient'
+import NewClient from './pages/NewClient'
+import EditClient from './pages/EditClient'
 import { action as deleteClientAction } from './components/Clients'
 
 import NewLottery, { loader as newLotteryLoader, action as newLotteryAction } from './pages/NewLottery'
@@ -58,7 +58,6 @@ const router = createBrowserRouter([
       {
         path: 'newclient',
         element: <NewClient />,
-        action: newClientAction,
         errorElement: <ErrorPage />
       },
       {
@@ -71,8 +70,6 @@ const router = createBrowserRouter([
       {
         path: 'editClient/:clientId',
         element: <EditClient />,
-        loader: editClientLoader,
-        action: editClientAction,
         errorElement: <ErrorPage />
       },
       {

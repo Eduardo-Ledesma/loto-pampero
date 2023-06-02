@@ -43,14 +43,6 @@
   ],
   "lottery": [
     {
-      "fullName": "Raúl Ledesma",
-      "number1": "48",
-      "number2": "64",
-      "number3": "37",
-      "number4": "12",
-      "id": 1
-    },
-    {
       "fullName": "Daniel Gutierrez",
       "number1": "12",
       "number2": "52",
@@ -81,6 +73,30 @@
       "number3": "55",
       "number4": "56",
       "id": 5
+    },
+    {
+      "fullName": "Raúl Ledesma",
+      "number1": "55",
+      "number2": "68",
+      "number3": "37",
+      "number4": "12",
+      "id": 6
+    },
+    {
+      "fullName": "Raúl Ledesma",
+      "number1": "60",
+      "number2": "64",
+      "number3": "37",
+      "number4": "12",
+      "id": 7
+    },
+    {
+      "fullName": "Daniel Gutierrez",
+      "number1": "16",
+      "number2": "52",
+      "number3": "12",
+      "number4": "11",
+      "id": 8
     }
   ]
 }

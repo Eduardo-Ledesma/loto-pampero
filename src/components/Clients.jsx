@@ -10,16 +10,16 @@ export async function action({params}) {
 const Clients = ({client}) => {
 
     const navigate = useNavigate()
-    const { fullName, number1, number2, number3, number4, id } = client
+    const { name, n1, n2, n3, n4, id } = client
 
     return (
         <>
             <tr className="border-b last-of-type:border-0">
                 <td className="p-6 font-bold">
-                    {fullName}
+                    {name}
                 </td>
                 <td className="p-6 font-bold text-center">
-                    {number1} - {number2} - {number3} - {number4}
+                    {n1} - {n2} - {n3} - {n4}
                 </td>
                 <td className="p-6 lg:flex lg:gap-x-8 lg:justify-center">
                     <button

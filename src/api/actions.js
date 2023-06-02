@@ -15,3 +15,16 @@ export async function loginAction(data) {
         console.error(error);
     }
 }
+
+
+// Mostrar los clientes del vendedor
+export async function showClientsPosta(token) {
+    const response = await fetch(`${urlAPI}/clients`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    const clients = await response.json()
+    return clients
+}

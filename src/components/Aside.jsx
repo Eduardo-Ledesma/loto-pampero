@@ -3,7 +3,7 @@ import useAuth from "../hooks/useAuth"
 
 const Aside = () => {
 
-    const { auth, logout, data } = useAuth()
+    const { token, logout, authLS, tokenLS } = useAuth()
 
     const handleClick = () => {
         if(confirm('¿Deseas cerrar la sesión?')) {
@@ -13,9 +13,9 @@ const Aside = () => {
 
     return (
         <>
-            { auth.accessToken || data.accessToken ? (
+            { token.length || tokenLS.length ? (
                 <aside className="mx-8 text-center md:text-left">
-                    <h2 className="text-4xl pt-1 font-bold">Bienvenido/a NombreUsuario!</h2>
+                    <h2 className="text-4xl pt-1 font-bold">Bienvenido/a {authLS.name}!</h2>
 
                     <nav>
                         <Link to="newclient"

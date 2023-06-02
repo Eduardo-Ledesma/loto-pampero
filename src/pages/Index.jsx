@@ -11,7 +11,7 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [alert, setAlert] = useState({})
 
-    const { auth, setAuth, data } = useAuth()
+    const { setAuth, token, setToken, tokenLS } = useAuth()
 
     const handleSubmit = async e => {
         e.preventDefault()
@@ -33,9 +33,10 @@ const Login = () => {
             })
             return
         }
-        localStorage.setItem('data', JSON.stringify(result))
+        localStorage.setItem('data', JSON.stringify(result.user))
         localStorage.setItem('token', result.accessToken)
-        setAuth(result);
+        setAuth(result.user);
+        setToken(result.accessToken)
     }
 
     const { msg } = alert
@@ -43,7 +44,7 @@ const Login = () => {
     return (
         
         <>
-            {auth.accessToken || data.accessToken ? ( 
+            {token.length || tokenLS.length ? ( 
                 <Navigate to="/userlogged" replace={true} />
             ) : (
                 <main className="contenedor">

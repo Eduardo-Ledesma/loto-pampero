@@ -16,6 +16,7 @@ export async function addClient(data) {
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
+                // 'Authorization': 'Bearer ${token}'
             }
         })
         await response.json()

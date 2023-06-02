@@ -1,17 +1,19 @@
 import { useLoaderData } from "react-router-dom"
-import { showClients, showLottery } from "../api/clients"
+import { showLottery } from "../api/clients"
 import Clients from "../components/Clients"
 import Lottery from "../components/Lottery"
+import useClients from "../hooks/useClients"
 
 export async function loader() {
-    const clients = await showClients()
     const lotteryAll = await showLottery()
-    return {clients, lotteryAll}
+    return {lotteryAll}
 }
 
 const Userlogged = () => {
 
-    const {clients, lotteryAll} = useLoaderData()
+    const { lotteryAll } = useLoaderData()
+    const { clients } = useClients()
+    console.log(clients);
 
     return (
         <>
