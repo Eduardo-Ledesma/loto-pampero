@@ -1,16 +1,37 @@
-import { useNavigate, Form, redirect } from "react-router-dom"
-import { deleteClient } from "../api/clients"
-
-export async function action({params}) {
-    await deleteClient(params.clientId)
-
-    return redirect('/userlogged')
-}
+import { useNavigate } from "react-router-dom"
+import useClients from "../hooks/useClients"
+import Swal from 'sweetalert2'
 
 const Clients = ({client}) => {
 
     const navigate = useNavigate()
     const { name, n1, n2, n3, n4, id } = client
+    const { deleteClient } = useClients()
+
+    const handleClick = () => {
+
+        Swal.fire({
+            title: 'Deseas Eliminar el Cliente?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, Eliminar',
+            cancelButtonText: 'Cancelar',
+            width: '40%'
+        }).then( async (result) => {
+            if (result.isConfirmed) {
+                await deleteClient(id)
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Cliente eliminado!',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            }
+        })
+    }
 
     return (
         <>
@@ -29,22 +50,14 @@ const Clients = ({client}) => {
                     >
                         Editar
                     </button>
-                    <Form
-                        method="POST"
-                        action={`deleteClient/${id}`}
-                        onSubmit={(e) => {
-                            if(!confirm('Deseas eliminar el cliente?')) {
-                                e.preventDefault()
-                            } 
-                        }}
+
+                    <button
+                        className="bg-red-600 hover:bg-red-700 transition-colors px-4 py-2 rounded-lg uppercase font-bold text-3xl"
+                        onClick={handleClick}
                     >
-                        <button
-                            type="submit"
-                            className="bg-red-600 hover:bg-red-700 transition-colors px-4 py-2 rounded-lg uppercase font-bold text-3xl"
-                        >
-                            Eliminar
-                        </button>
-                    </Form>
+                        Eliminar
+                    </button>
+                    
                 </td>
             </tr>
         </>

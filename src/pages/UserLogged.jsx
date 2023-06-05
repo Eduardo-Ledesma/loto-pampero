@@ -1,19 +1,17 @@
-import { useLoaderData } from "react-router-dom"
-import { showLottery } from "../api/clients"
+import { useEffect } from "react"
 import Clients from "../components/Clients"
 import Lottery from "../components/Lottery"
 import useClients from "../hooks/useClients"
 
-export async function loader() {
-    const lotteryAll = await showLottery()
-    return {lotteryAll}
-}
-
 const Userlogged = () => {
 
-    const { lotteryAll } = useLoaderData()
-    const { clients } = useClients()
-    console.log(clients);
+    const { clients, setClient, getClients } = useClients()
+    
+    useEffect(() => {
+        setClient({})
+        getClients()
+    }, [])
+
 
     return (
         <>
@@ -42,7 +40,7 @@ const Userlogged = () => {
             )}
 
             <h2 className="mt-14 md:mt-20 mb-20 text-6xl font-black underline text-center lg:text-left">Lotos de la Semana</h2>
-            {lotteryAll.length ? (
+            {/* {lotteryAll.length ? (
                 <table className="w-full my-10 table-auto bg-indigo-800 rounded-lg bg-opacity-70">
                 <thead className="bg-indigo-600 bg-opacity-50">
                     <tr>
@@ -62,7 +60,7 @@ const Userlogged = () => {
             </table>
             ) : (
                 <p className="text-center mt-10">Aún no tienes lotos creados</p>
-            )}
+            )} */}
         </>
     )
 }

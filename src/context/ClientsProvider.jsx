@@ -7,7 +7,8 @@ const ClientsProvider = ({children}) => {
 
     const [clients, setClients] = useState([])
     const [client, setClient] = useState({})
-    const [alert, setAlert] = useState([])
+    const [alert, setAlert] = useState({})
+    const [loading, setLoading] = useState(false)
 
     const { tokenLS } = useAuth()
     const urlAPI = import.meta.env.VITE_API_LOTO
@@ -15,46 +16,78 @@ const ClientsProvider = ({children}) => {
     const showAlert = alert => {
         setAlert(alert)
         setTimeout(() => {
-            setAlert([])
+            setAlert({})
         }, 3500);
     }
 
     // Obtener los clientes del vendedor
-    useEffect(() => {
-        const getClients = async () => {
-            try {
-                if(!tokenLS) return
-                
-                const response = await fetch(`${urlAPI}/clients`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${tokenLS}`
-                    }
-                })
-                const result = await response.json()
-                setClients(result.clients);
-            } catch (error) {
-                console.log(error)
-            }
+    const getClients = async () => {
+        try {
+            if(!tokenLS) return
+            
+            const response = await fetch(`${urlAPI}/clients`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${tokenLS}`
+                }
+            })
+            const result = await response.json()
+            setClients(result.clients);
+        } catch (error) {
+            console.log(error)
         }
-        getClients()
-    }, [tokenLS])
+    }
+    // useEffect(() => {
+    //     const getClients = async () => {
+    //         try {
+    //             if(!tokenLS) return
+                
+    //             const response = await fetch(`${urlAPI}/clients`, {
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                     Authorization: `Bearer ${tokenLS}`
+    //                 }
+    //             })
+    //             const result = await response.json()
+    //             setClients(result.clients);
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     }
+    //     getClients()
+    // }, [tokenLS, clients])
 
     // Agregar clientes nuevos
-    const addClient = async client => {
+    const submitClient = async client => {
+        if(client.id) {
+            editClient(client)
+        } else {
+            addClient(client)
+        }
+    }
+
+    const addClient = async (client) => {
         if(!tokenLS) return
-        console.log(client);
+
         try {
             const response = await fetch(`${urlAPI}/clients`, {
                 method: 'POST',
                 body: JSON.stringify(client),
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${tokenLS}`
+                    Authorization: `Bearer ${tokenLS}`
                 }
             })
             const result = await response.json()
-            console.log(result);
+            setClients([...clients, result.client])
+            
+            setAlert({
+                msg: 'Cliente Agregado Correctamente!',
+                error: false
+            })
+            setTimeout(() => {
+                setAlert({})
+            }, 2500);
         } catch (error) {
             console.log(error);
         }
@@ -63,29 +96,63 @@ const ClientsProvider = ({children}) => {
     // Obtener un cliente en específico para editarlo
     const getClient = async (id) => {
         if(!tokenLS) return
-        const response = await fetch(`${urlAPI}/clients/${id}`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${tokenLS}`
-            }
-        })
-        const client = await response.json()
-        setClient(client.client)
+
+        setLoading(true)
+        try {
+            const response = await fetch(`${urlAPI}/clients/${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${tokenLS}`
+                }
+            })
+            const client = await response.json()
+            setClient(client.client)
+            setLoading(false)
+        } catch (error) {
+            console.log(error);
+        } 
     }
 
     // Confirmar editar cliente
-    const editClient = async (id, data) => {
+    const editClient = async (client) => {
         if(!tokenLS) return
+
         try {
-            const response = await fetch(`${urlAPI}/clients/${id}`, {
+            await fetch(`${urlAPI}/clients/${client.id}`, {
                 method: 'PUT',
-                body: JSON.stringify(data),
+                body: JSON.stringify(client),
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${tokenLS}`
                 }
             })
-            await response.json()
+
+            setAlert({
+                msg: 'Cliente Editado Correctamente!',
+                error: false
+            })
+            setTimeout(() => {
+                setAlert({})
+            }, 2500);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    // Eliminar cliente
+    const deleteClient = async id => {
+        if(!tokenLS) return
+        
+        try {
+            await fetch(`${urlAPI}/clients/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${tokenLS}`
+                }            
+            })
+            const proyectosActualizados = clients.filter(client => client.id !== id)
+            setClients(proyectosActualizados)
         } catch (error) {
             console.log(error);
         }
@@ -97,11 +164,15 @@ const ClientsProvider = ({children}) => {
             value={{
                 clients,
                 setClients,
+                getClients,
                 getClient,
-                addClient,
+                submitClient,
                 client,
+                setClient, 
                 showAlert,
-                alert
+                alert,
+                loading,
+                deleteClient
             }}
         >
             {children}

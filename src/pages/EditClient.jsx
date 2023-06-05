@@ -1,5 +1,7 @@
-import { useNavigate, } from "react-router-dom"
+import { useEffect } from "react"
+import { useNavigate, useParams } from "react-router-dom"
 import FormNewClient from "../components/FormNewClient"
+import useClients from "../hooks/useClients"
 
 // export async function action({request, params}) {
 //     const formData = await request.formData()
@@ -20,6 +22,12 @@ import FormNewClient from "../components/FormNewClient"
 const EditClient = () => {
 
     const navigate = useNavigate()
+    const params = useParams()
+    const { getClient, loading } = useClients()
+
+    useEffect(() => {
+        getClient(params.clientId)
+    }, [])
 
     return (
         <>
@@ -35,9 +43,14 @@ const EditClient = () => {
                 </button>
             </div>
 
-            <div className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-2/4 mx-auto px-5 py-10 bg-opacity-70 mb-20">
-                <FormNewClient />
-            </div>
+            {loading ? (
+                <p>Cargando los Datos</p>
+            ) : (
+                <div className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-2/4 mx-auto px-5 py-10 bg-opacity-70 mb-20">
+                    <FormNewClient />
+                </div>
+            )}
+            
         </>
     )
 }
