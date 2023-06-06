@@ -1,5 +1,7 @@
-import { useState, useEffect, createContext } from "react"
+import { useState, createContext } from "react"
 import useAuth from "../hooks/useAuth"
+import Swal from "sweetalert2"
+import styles from '../css/HeaderNav.module.css'
 
 const ClientsContext = createContext()
 
@@ -9,6 +11,7 @@ const ClientsProvider = ({children}) => {
     const [client, setClient] = useState({})
     const [alert, setAlert] = useState({})
     const [loading, setLoading] = useState(false)
+    const [noClients, setNoClients] = useState(false)
 
     const { tokenLS } = useAuth()
     const urlAPI = import.meta.env.VITE_API_LOTO
@@ -32,9 +35,11 @@ const ClientsProvider = ({children}) => {
                 }
             })
             const result = await response.json()
+            setNoClients(false)
             setClients(result.clients);
         } catch (error) {
             console.log(error)
+            setNoClients(true)
         }
     }
     // useEffect(() => {
@@ -80,14 +85,17 @@ const ClientsProvider = ({children}) => {
             })
             const result = await response.json()
             setClients([...clients, result.client])
-            
-            setAlert({
-                msg: 'Cliente Agregado Correctamente!',
-                error: false
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Cliente Agregado Correctamente!',
+                showConfirmButton: false,
+                timer: 2400,
+                customClass: {
+                    popup: `${styles.sweetEdit}`
+                }
             })
-            setTimeout(() => {
-                setAlert({})
-            }, 2500);
+            
         } catch (error) {
             console.log(error);
         }
@@ -127,13 +135,17 @@ const ClientsProvider = ({children}) => {
                 }
             })
 
-            setAlert({
-                msg: 'Cliente Editado Correctamente!',
-                error: false
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Cliente Editado!',
+                showConfirmButton: false,
+                timer: 2400,
+                customClass: {
+                    popup: `${styles.sweetEdit}`
+                }
             })
-            setTimeout(() => {
-                setAlert({})
-            }, 2500);
+            
         } catch (error) {
             console.error(error);
         }
@@ -172,7 +184,8 @@ const ClientsProvider = ({children}) => {
                 showAlert,
                 alert,
                 loading,
-                deleteClient
+                deleteClient,
+                noClients
             }}
         >
             {children}

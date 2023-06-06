@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { AuthProvider } from './context/AuthProvider'
 import { ClientsProvider } from './context/ClientsProvider'
+import { AdminProvider } from './context/AdminProvider'
 
 import './index.css'
 import AuthLayout from './layouts/AuthLayout'
@@ -19,9 +20,11 @@ import EditClient from './pages/EditClient'
 import NewLottery from './pages/NewLottery'
 import EditLottery from './pages/EditLottery'
 
+import AdminLayout from './layouts/AdminLayout'
+import NewSeller from './pages/NewSeller'
+
 import AdminLogged from './pages/AdminLogged'
 
-import ErrorPage from './components/ErrorPage'
 
 
 const router = createBrowserRouter([
@@ -50,27 +53,22 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Userlogged />,
-        errorElement: <ErrorPage />
       },
       {
         path: 'newclient',
         element: <NewClient />,
-        errorElement: <ErrorPage />
       },
       {
         path: 'newlottery',
         element: <NewLottery />,
-        errorElement: <ErrorPage />
       },
       {
         path: 'editClient/:clientId',
         element: <EditClient />,
-        errorElement: <ErrorPage />
       },
       {
         path: 'editLottery/:lotteryId',
         element: <EditLottery />,
-        errorElement: <ErrorPage />
       },
       {
         path: 'deleteClient/:clientId',
@@ -82,16 +80,28 @@ const router = createBrowserRouter([
   }, // Vista del Admin
   {
     path: '/adminlogged',
-    element: <ProtectedLayout />
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdminLogged />,
+      },
+      {
+        path: 'newseller',
+        element: <NewSeller />,
+      },
+    ]
   }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
-      <ClientsProvider>
-        <RouterProvider router={router} />
-      </ClientsProvider>
+      <AdminProvider>
+        <ClientsProvider>
+          <RouterProvider router={router} />
+        </ClientsProvider>
+      </AdminProvider>
     </AuthProvider>
   </React.StrictMode>,
 )

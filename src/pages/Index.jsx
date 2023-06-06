@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom"
 import styles from '../css/Form.module.css'
-import { loginAction } from "../api/actions";
 import useAuth from "../hooks/useAuth";
 import Alert from "../components/Alert";
+import AlertApi from "../components/AlertApi";
 
 const Login = () => {
 
@@ -11,7 +11,7 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [alert, setAlert] = useState({})
 
-    const { setAuth, token, setToken, tokenLS } = useAuth()
+    const { auth, setAuth, authLS, token, setToken, tokenLS, loginAction, alertConection, setTokenAdmin } = useAuth()
 
     const handleSubmit = async e => {
         e.preventDefault()
@@ -21,6 +21,9 @@ const Login = () => {
                 msg: 'Todos los campos son obligatorios',
                 error: true
             })
+            setTimeout(() => {
+                setAlert({})
+            }, 3000);
             return
         }
         const data = { email, password }
@@ -31,12 +34,23 @@ const Login = () => {
                 msg: 'Email o contraseña incorrectos',
                 error: true
             })
+            setTimeout(() => {
+                setAlert({})
+            }, 3000);
             return
         }
+
         localStorage.setItem('data', JSON.stringify(result.user))
-        localStorage.setItem('token', result.accessToken)
+        
         setAuth(result.user);
-        setToken(result.accessToken)
+        if(result.user.role === 2) {
+            localStorage.setItem('token', result.accessToken)
+            setToken(result.accessToken)
+        } else {
+            localStorage.setItem('tokenAdmin', result.accessToken)
+            setTokenAdmin(result.accessToken)
+        }
+        
     }
 
     const { msg } = alert
@@ -44,8 +58,10 @@ const Login = () => {
     return (
         
         <>
-            {token.length || tokenLS.length ? ( 
+            { auth.name || authLS.name ? token.length || tokenLS.length ? ( 
                 <Navigate to="/userlogged" replace={true} />
+            ) : (
+                <Navigate to="/adminlogged" replace={true} />
             ) : (
                 <main className="contenedor">
                     <form 
@@ -56,6 +72,7 @@ const Login = () => {
                             <legend className={styles.form_legend}>Inicie Sesión para continuar</legend>
 
                             { msg && <Alert alert={alert} />}
+                            { alertConection.msg && <AlertApi alert={alertConection.msg} />}
                             <div className={styles.form_div}>
                                 <label htmlFor="email">Email</label>
                                 <input type="email" name="email" id="email" placeholder="Email" 

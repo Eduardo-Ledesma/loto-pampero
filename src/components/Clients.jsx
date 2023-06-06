@@ -17,8 +17,9 @@ const Clients = ({client}) => {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Si, Eliminar',
+            confirmButtonAriaLabel: 'Confirmar',
             cancelButtonText: 'Cancelar',
-            width: '40%'
+            cancelButtonAriaLabel: 'Cancelar',
         }).then( async (result) => {
             if (result.isConfirmed) {
                 await deleteClient(id)

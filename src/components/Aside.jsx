@@ -1,14 +1,25 @@
 import { Link, Navigate } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
+import Swal from 'sweetalert2'
 
 const Aside = () => {
 
     const { token, logout, authLS, tokenLS } = useAuth()
 
     const handleClick = () => {
-        if(confirm('¿Deseas cerrar la sesión?')) {
-            logout()
-        }
+        Swal.fire({
+            title: 'Deseas cerrar sesión?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar',
+        }).then( async (result) => {
+            if (result.isConfirmed) {
+                logout()
+            }
+        })
     }
 
     return (

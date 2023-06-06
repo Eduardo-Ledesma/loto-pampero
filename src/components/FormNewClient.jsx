@@ -31,7 +31,7 @@ const FormNewClient = () => {
     const handleSubmit = async e => {
         e.preventDefault()
 
-        if([name,n1,n2,n3,n4].includes('')) {
+        if([name,n1,n2,n3,n4].includes('') || name.trim() === '') {
             showAlert({
                 msg: 'Todos los campos son obligatorios',
                 error: true
@@ -40,7 +40,7 @@ const FormNewClient = () => {
         } 
 
         await submitClient({id,name,n1,n2,n3,n4})
-
+        
         setId(null)
         setName('')
         setN1('')
@@ -53,7 +53,6 @@ const FormNewClient = () => {
     }
 
     
-
     const { msg } = alert
 
     return (

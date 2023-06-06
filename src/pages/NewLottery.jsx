@@ -1,32 +1,8 @@
-import { useNavigate, Form, useActionData, redirect, useLoaderData } from "react-router-dom"
+import { useNavigate, Form } from "react-router-dom"
 import FormNewLottery from "../components/FormNewLottery"
-import { addLottery, showClients } from "../api/clients"
-import Error from "../components/Error"
 
-export async function loader() {
-    const clients = await showClients()
-    return clients
-}
-
-export async function action({request}) {
-    const formData = await request.formData()
-    const data = Object.fromEntries(formData)
-
-    // Validate
-    const error = []
-    if(Object.values(data).includes('')) {
-        error.push('Todos los campos son obligatorios');
-        return error
-    }
-
-    await addLottery(data)
-    return redirect('/userlogged')
-}
 
 const NewLottery = () => {
-
-    const clients = useLoaderData()
-    const error = useActionData()
     const navigate = useNavigate()
 
     return (
@@ -45,13 +21,12 @@ const NewLottery = () => {
 
         <div className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-2/4 mx-auto px-5 py-10 bg-opacity-70 mb-20">
 
-            {error?.length && error.map((err, i ) => <Error key={i}>{err}</Error> )}
             <Form
                 method="POST"
             >
             <legend className="text-center mb-20 text-5xl font-bold">Completa los siguientes campos</legend>
                 <FormNewLottery 
-                    clients={clients}
+                
                 />
             
             <input type="submit"  value="Cargar Nuevo Loto"

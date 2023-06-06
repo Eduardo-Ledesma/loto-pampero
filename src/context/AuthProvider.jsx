@@ -6,19 +6,51 @@ const AuthProvider = ({children}) => {
 
     const [auth, setAuth] = useState({})
     const [token, setToken] = useState('')
-    const [authLS, setAuthLS] = useState()
+    const [tokenAdmin, setTokenAdmin] = useState('')
+    const [authLS, setAuthLS] = useState({})
     const [tokenLS, setTokenLS] = useState('')
+    const [tokenAdminLS, setTokenAdminLS] = useState('')
+    const [alertConection, setAlertConection] = useState({})
+
+    const urlAPI = import.meta.env.VITE_API_LOTO
 
     useEffect(() => {
         setAuthLS(JSON.parse(localStorage.getItem('data')) || {})
         setTokenLS(localStorage.getItem('token') || '')
+        setTokenAdminLS(localStorage.getItem('tokenAdmin') || '')
     }, [auth])
+
+    const loginAction = async (data) => {
+        try {
+            const response = await fetch(`${urlAPI}/users/login`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            const result = await response.json()
+            return result
+        } catch (error) {
+            console.log(error);
+            setAlertConection({
+                msg: 'Lo sentimos, ocurrió un error',
+                error: true
+            })
+            setTimeout(() => {
+                setAlertConection({})
+            }, 6000);
+        }
+    }
+    
 
     const logout = useCallback(() => {
         setAuth({})
         setToken('')
+        setTokenAdmin('')
         localStorage.removeItem('data')
         localStorage.removeItem('token')
+        localStorage.removeItem('tokenAdmin')
     }, [])
     
 
@@ -30,7 +62,12 @@ const AuthProvider = ({children}) => {
             setToken,
             logout,
             authLS,
-            tokenLS
+            tokenLS,
+            loginAction,
+            alertConection,
+            setTokenAdmin,
+            tokenAdmin,
+            tokenAdminLS
         }}>
             {children}
         </AuthContext.Provider> 

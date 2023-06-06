@@ -1,41 +1,9 @@
-import { useLoaderData, useNavigate, Form, useActionData, redirect } from "react-router-dom"
-import { getLottery, editLottery } from "../api/clients"
+import { useNavigate, Form } from "react-router-dom"
 import FormEditLottery from "../components/FormEditLottery"
-import Error from "../components/Error"
-
-export async function loader({params}) {
-    const lottery = await getLottery(params.lotteryId)
-
-    if(!Object.values(lottery).length) {
-        throw new Response('', {
-            status: 404,
-            statusText: 'No Hay Resultados'
-        })
-    }
-
-    return lottery
-}
-
-export async function action({request, params}) {
-    const formData = await request.formData()
-    const data = Object.fromEntries(formData)
-    
-    // Validate
-    const error = []
-    if(Object.values(data).includes('')) {
-        error.push('Todos los campos son obligatorios');
-        return error
-    }
-    await editLottery(params.lotteryId, data)
-
-    return redirect('/userlogged')
-}
 
 const EditLottery = () => {
 
-    const lottery = useLoaderData()
     const navigate = useNavigate()
-    const error = useActionData()
 
     return (
         <>
@@ -53,13 +21,12 @@ const EditLottery = () => {
 
             <div className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-2/4 mx-auto px-5 py-10 bg-opacity-70 mb-20">
 
-                {error?.length && error.map((err, i ) => <Error key={i}>{err}</Error> )}
                 <Form
                     method="POST"
                 >
                 <legend className="text-center mb-20 text-5xl font-bold">Selecciona los números que quieras editar</legend>
                     <FormEditLottery 
-                        lottery={lottery}
+                        
                     />
                 
                 <input type="submit"  value="Editar Loto"
