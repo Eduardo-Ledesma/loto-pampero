@@ -1,17 +1,20 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import Alert from "./Alert"
 import useAdmin from "../hooks/useAdmin"
 
 const FormNewSeller = () => {
 
+    // const [id, setId] = useState(null)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
     
-    const { showAlert, alert } = useAdmin()
+    const { showAlert, alert, submitClient } = useAdmin()
+    const navigate = useNavigate()
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault()
         
         if([name,email,password,repeatPassword].includes('') || !name.trim() || !password.trim() || !repeatPassword.trim()) {
@@ -21,7 +24,6 @@ const FormNewSeller = () => {
             })
             return
         }
-        
         if(!/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/.test(email)) {
             showAlert({
                 msg: 'Email no válido',
@@ -29,8 +31,7 @@ const FormNewSeller = () => {
             })
             return
         }
-
-        if(password != repeatPassword) {
+        if(password !== repeatPassword) {
             showAlert({
                 msg: 'Las contraseñas no coinciden',
                 error: true
@@ -38,7 +39,15 @@ const FormNewSeller = () => {
             return
         }
 
-        console.log('creando')
+        await submitClient({name,email,password})
+
+        setName('')
+        setEmail('')
+        setPassword('')
+        setRepeatPassword('')
+        setTimeout(() => {
+            navigate('/adminlogged')
+        }, 2500);
     }
 
     const { msg } = alert
@@ -55,7 +64,7 @@ const FormNewSeller = () => {
                 <label className="mb-6 lg:w-1/3" htmlFor="name">Nombre y Apellido:</label>
                 <input type="text" name="name" id="name" placeholder="Nombre y Apellido"
                     className="py-2 px-5 lg:w-2/3 bg-indigo-600 rounded-lg border border-white"
-                    // value={name}
+                    value={name}
                     onChange={e => setName(e.target.value)}
                 />
             </div>
@@ -64,7 +73,7 @@ const FormNewSeller = () => {
                 <label className="mb-6 lg:w-1/3" htmlFor="email">Email:</label>
                 <input type="email" name="email" id="email" placeholder="Email"
                     className="py-2 px-5 lg:w-2/3 bg-indigo-600 rounded-lg border border-white"
-                    // value={name}
+                    value={email}
                     onChange={e => setEmail(e.target.value)}
                 />
             </div>
@@ -73,7 +82,7 @@ const FormNewSeller = () => {
                 <label className="mb-6 lg:w-1/3" htmlFor="password">Contraseña:</label>
                 <input type="password" name="password" id="password" placeholder="Contraseña"
                     className="py-2 px-5 lg:w-2/3 bg-indigo-600 rounded-lg border border-white"
-                    // value={name}
+                    value={password}
                     onChange={e => setPassword(e.target.value)}
                 />
             </div>
@@ -82,7 +91,7 @@ const FormNewSeller = () => {
                 <label className="mb-6 lg:w-1/3" htmlFor="rep-password">Repite la Contraseña:</label>
                 <input type="password" name="rep-password" id="repeat-password" placeholder="Repetir Contraseña"
                     className="py-2 px-5 lg:w-2/3 bg-indigo-600 rounded-lg border border-white"
-                    // value={name}
+                    value={repeatPassword}
                     onChange={e => setRepeatPassword(e.target.value)}
                 />
             </div>

@@ -62,7 +62,7 @@ const ClientsProvider = ({children}) => {
     //     getClients()
     // }, [tokenLS, clients])
 
-    // Agregar clientes nuevos
+    // Submit al formulario, depende si agrego nuevo o edito
     const submitClient = async client => {
         if(client.id) {
             editClient(client)
@@ -71,6 +71,7 @@ const ClientsProvider = ({children}) => {
         }
     }
 
+    // Nuevos clientes
     const addClient = async (client) => {
         if(!tokenLS) return
 
@@ -84,17 +85,31 @@ const ClientsProvider = ({children}) => {
                 }
             })
             const result = await response.json()
+
             setClients([...clients, result.client])
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Cliente Agregado Correctamente!',
-                showConfirmButton: false,
-                timer: 2400,
-                customClass: {
-                    popup: `${styles.sweetEdit}`
-                }
-            })
+            if(result.client.name) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Cliente Agregado Correctamente!',
+                    showConfirmButton: false,
+                    timer: 2400,
+                    customClass: {
+                        popup: `${styles.sweetEdit}`
+                    }
+                })
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Ups, ocurrió un error... lo sentimos.',
+                    showConfirmButton: false,
+                    timer: 2400,
+                    customClass: {
+                        popup: `${styles.sweetEdit}`
+                    }
+                })
+            }
             
         } catch (error) {
             console.log(error);
@@ -126,7 +141,7 @@ const ClientsProvider = ({children}) => {
         if(!tokenLS) return
 
         try {
-            await fetch(`${urlAPI}/clients/${client.id}`, {
+            const result = await fetch(`${urlAPI}/clients/${client.id}`, {
                 method: 'PUT',
                 body: JSON.stringify(client),
                 headers: {
@@ -134,17 +149,30 @@ const ClientsProvider = ({children}) => {
                     Authorization: `Bearer ${tokenLS}`
                 }
             })
-
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Cliente Editado!',
-                showConfirmButton: false,
-                timer: 2400,
-                customClass: {
-                    popup: `${styles.sweetEdit}`
-                }
-            })
+            
+            if(result.ok) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Cliente Editado Correctamente!',
+                    showConfirmButton: false,
+                    timer: 2400,
+                    customClass: {
+                        popup: `${styles.sweetEdit}`
+                    }
+                })
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Ups, ocurrió un error... lo sentimos.',
+                    showConfirmButton: false,
+                    timer: 2400,
+                    customClass: {
+                        popup: `${styles.sweetEdit}`
+                    }
+                })
+            }
             
         } catch (error) {
             console.error(error);

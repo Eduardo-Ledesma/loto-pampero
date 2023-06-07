@@ -23,6 +23,8 @@ import EditLottery from './pages/EditLottery'
 import AdminLayout from './layouts/AdminLayout'
 import NewSeller from './pages/NewSeller'
 
+import CloseLottery from './pages/CloseLottery'
+
 import AdminLogged from './pages/AdminLogged'
 
 
@@ -90,6 +92,10 @@ const router = createBrowserRouter([
         path: 'newseller',
         element: <NewSeller />,
       },
+      {
+        path: 'closelottery',
+        element: <CloseLottery />
+      }
     ]
   }
 ])

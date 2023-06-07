@@ -1,5 +1,7 @@
 import { useState, createContext } from "react"
 import useAuth from "../hooks/useAuth"
+import Swal from "sweetalert2"
+import styles from '../css/HeaderNav.module.css'
 
 const AdminContext = createContext()
 
@@ -26,7 +28,7 @@ const AdminProvider = ({children}) => {
         try {
             if(!tokenAdminLS) return
             
-            const response = await fetch(`${urlAPI}/users/manage/list/2`, {
+            const response = await fetch(`${urlAPI}/admin/2`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${tokenAdminLS}`
@@ -40,6 +42,63 @@ const AdminProvider = ({children}) => {
             setNoSellers(true)
         }
     }
+
+    // Submit al formulario, depende si agrego nuevo o edito
+    const submitClient = async seller => {
+        await addSeller(seller)
+        // if(seller.id) {
+        //     editClient(seller)
+        // } else {
+        //     addClient(seller)
+        // }
+    }
+
+    // Nuevos clientes
+    const addSeller = async (seller) => {
+        if(!tokenAdminLS) return
+        console.log(seller)
+        
+        try {
+            const response = await fetch(`${urlAPI}/admin/`, {
+                method: 'POST',
+                body: JSON.stringify(seller),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${tokenAdminLS}`
+                }
+            })
+            
+            console.log(response);
+            // setClients([...clients, result.client])
+            if(response.ok) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Vendedor Agregado Correctamente!',
+                    showConfirmButton: false,
+                    timer: 2400,
+                    customClass: {
+                        popup: `${styles.sweetEdit}`
+                    }
+                })
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Ups, ocurrió un error... lo sentimos.',
+                    showConfirmButton: false,
+                    timer: 2400,
+                    customClass: {
+                        popup: `${styles.sweetEdit}`
+                    }
+                })
+            }
+
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
     
     return <AdminContext.Provider
         value={{
@@ -47,7 +106,8 @@ const AdminProvider = ({children}) => {
             getSellersAdmin,
             noSellers,
             showAlert,
-            alert
+            alert,
+            submitClient
         }}
     >
         {children}
