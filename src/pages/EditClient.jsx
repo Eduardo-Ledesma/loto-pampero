@@ -3,22 +3,6 @@ import { useNavigate, useParams } from "react-router-dom"
 import FormNewClient from "../components/FormNewClient"
 import useClients from "../hooks/useClients"
 
-// export async function action({request, params}) {
-//     const formData = await request.formData()
-//     const data = Object.fromEntries(formData)
-
-//     // Validate
-//     const fullName = formData.get('fullName')
-//     const error = []
-//     if(Object.values(data).includes('') || !fullName.trim()) {
-//         error.push('Todos los campos son obligatorios');
-//         return error
-//     }
-//     await editClient(params.clientId, data)
-
-//     return redirect('/userlogged')
-// }
-
 const EditClient = () => {
 
     const navigate = useNavigate()

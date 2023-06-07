@@ -13,7 +13,7 @@ const AdminLayout = () => {
             <div className="md:flex md:min-h-screen">
                 <AsideAdmin className="px-12" /> 
                 
-                <main className="px-10 pt-20 md:pt-0 flex-1 md:border-l border-white">
+                <main className="sm:px-10 pt-20 md:pt-0 flex-1 md:border-l border-white">
                     <Outlet />
                 </main>
             </div>
