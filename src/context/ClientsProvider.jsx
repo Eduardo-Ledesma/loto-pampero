@@ -191,8 +191,8 @@ const ClientsProvider = ({children}) => {
                     Authorization: `Bearer ${tokenLS}`
                 }            
             })
-            const proyectosActualizados = clients.filter(client => client.id !== id)
-            setClients(proyectosActualizados)
+            const updatedClients = clients.filter(client => client.id !== id)
+            setClients(updatedClients)
         } catch (error) {
             console.log(error);
         }

@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom"
+import useAdmin from "../hooks/useAdmin"
 import Swal from "sweetalert2"
 
 const Sellers = ({seller}) => {
 
     const navigate = useNavigate()
     const { name, email, id } = seller
+    const { deleteSeller } = useAdmin()
 
     const handleClick = () => {
 
@@ -18,8 +20,9 @@ const Sellers = ({seller}) => {
             confirmButtonAriaLabel: 'Confirmar',
             cancelButtonText: 'Cancelar',
             cancelButtonAriaLabel: 'Cancelar',
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
+                await deleteSeller(id)
                 Swal.fire({
                     position: 'center',
                     icon: 'success',

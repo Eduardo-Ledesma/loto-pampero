@@ -8,8 +8,10 @@ const AdminContext = createContext()
 const AdminProvider = ({children}) => {
 
     const [sellers, setSellers] = useState([])
+    const [seller, setSeller] = useState({})
     const [noSellers, setNoSellers] = useState(false)
     const [alert, setAlert] = useState({})
+    const [loading, setLoading] = useState(false)
 
     const { tokenAdminLS } = useAuth()
     const urlAPI = import.meta.env.VITE_API_LOTO
@@ -44,7 +46,7 @@ const AdminProvider = ({children}) => {
     }
 
     // Submit al formulario, depende si agrego nuevo o edito
-    const submitClient = async seller => {
+    const submitSeller = async seller => {
         await addSeller(seller)
         // if(seller.id) {
         //     editClient(seller)
@@ -56,7 +58,6 @@ const AdminProvider = ({children}) => {
     // Nuevos clientes
     const addSeller = async (seller) => {
         if(!tokenAdminLS) return
-        console.log(seller)
         
         try {
             const response = await fetch(`${urlAPI}/admin/`, {
@@ -68,8 +69,7 @@ const AdminProvider = ({children}) => {
                 }
             })
             
-            console.log(response);
-            // setClients([...clients, result.client])
+            // setSellers([...sellers, result.users])
             if(response.ok) {
                 Swal.fire({
                     position: 'center',
@@ -99,6 +99,89 @@ const AdminProvider = ({children}) => {
             
         }
     }
+
+    // Obtener un cliente en específico para editarlo
+    const getSeller = async (id) => {
+        if(!tokenAdminLS) return
+
+        setLoading(true)
+        try {
+            const response = await fetch(`${urlAPI}/admin/${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${tokenAdminLS}`
+                }
+            })
+            const seller = await response.json()
+            console.log(seller);
+            // setSeller()
+            setLoading(false)
+        } catch (error) {
+            console.log(error);
+        } 
+    }
+
+    // Confirmar editar cliente
+    const editSeller = async (seller) => {
+        if(!tokenAdminLS) return
+
+        try {
+            const result = await fetch(`${urlAPI}/admin/${seller.id}`, {
+                method: 'PUT',
+                body: JSON.stringify(seller),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${tokenAdminLS}`
+                }
+            })
+            
+            if(result.ok) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Cliente Editado Correctamente!',
+                    showConfirmButton: false,
+                    timer: 2400,
+                    customClass: {
+                        popup: `${styles.sweetEdit}`
+                    }
+                })
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Ups, ocurrió un error... lo sentimos.',
+                    showConfirmButton: false,
+                    timer: 2400,
+                    customClass: {
+                        popup: `${styles.sweetEdit}`
+                    }
+                })
+            }
+            
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    // Eliminar cliente
+    const deleteSeller = async id => {
+        if(!tokenAdminLS) return
+        
+        try {
+            await fetch(`${urlAPI}/admin/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${tokenAdminLS}`
+                }            
+            })
+            const updatedSellers = sellers.filter(seller => seller.id !== id)
+            setSellers(updatedSellers)
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
     return <AdminContext.Provider
         value={{
@@ -107,7 +190,10 @@ const AdminProvider = ({children}) => {
             noSellers,
             showAlert,
             alert,
-            submitClient
+            submitSeller,
+            getSeller,
+            editSeller,
+            deleteSeller
         }}
     >
         {children}

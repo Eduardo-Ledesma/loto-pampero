@@ -3,41 +3,40 @@ import { useNavigate, useParams } from "react-router-dom"
 import Alert from "./Alert"
 import useAdmin from "../hooks/useAdmin"
 
-const FormNewSeller = () => {
+const FormEditSeller = () => {
 
-    // const [id, setId] = useState(null)
+    const [id, setId] = useState(null)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
     
-    const { showAlert, alert, submitSeller } = useAdmin()
+    const { showAlert, alert, editSeller, sellers } = useAdmin()
     const navigate = useNavigate()
-    // const params = useParams()
+    const params = useParams()
 
-    // useEffect( () => {
-    //     if(seller.name) {
-    //         console.log('hola');
-    //     }
-    // }, [params])
+    useEffect( () => {
+        if(params.sellerId)
+            setId(+params.sellerId)
+            
+            const filterSeller = sellers.filter( seller => seller.id === +params.sellerId)
+            setName(filterSeller[0].name)
+            setEmail(filterSeller[0].email)
+    }, [])
 
     const handleSubmit = async e => {
         e.preventDefault()
         
-        if([name,email,password,repeatPassword].includes('') || !name.trim() || !password.trim() || !repeatPassword.trim()) {
-            showAlert({
-                msg: 'Todos los campos son obligatorios',
-                error: true
-            })
-            return
+        if(email) {
+            if(!/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/.test(email)) {
+                showAlert({
+                    msg: 'Email no válido',
+                    error: true
+                })
+                return
+            }
         }
-        if(!/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/.test(email)) {
-            showAlert({
-                msg: 'Email no válido',
-                error: true
-            })
-            return
-        }
+        
         if(password !== repeatPassword) {
             showAlert({
                 msg: 'Las contraseñas no coinciden',
@@ -46,8 +45,9 @@ const FormNewSeller = () => {
             return
         }
 
-        await submitSeller({name,email,password})
+        await editSeller({name,email,password,id})
 
+        setId(null)
         setName('')
         setEmail('')
         setPassword('')
@@ -65,7 +65,7 @@ const FormNewSeller = () => {
             noValidate
         >
             { msg && <Alert alert={alert} /> }
-            <legend className="text-center mb-20 text-5xl font-bold">Completa los siguientes campos</legend>
+            <legend className="text-center mb-20 text-5xl font-bold">Completa el o los campos que quieras editar</legend>
 
             <div className="flex flex-col lg:flex-row mb-12">
                 <label className="mb-6 lg:w-1/3" htmlFor="name">Nombre y Apellido:</label>
@@ -103,7 +103,7 @@ const FormNewSeller = () => {
                 />
             </div>
 
-            <input type="submit"  value={'Agregar Nuevo Vendedor'}
+            <input type="submit"  value={'Guardar Cambios'}
                     className="uppercase bg-stone-800 font-bold rounded-lg px-4 py-2 mt-20 
                     hover:cursor-pointer hover:bg-stone-700 transition-colors w-full lg:w-3/4 lg:block mx-auto"
             />
@@ -111,4 +111,4 @@ const FormNewSeller = () => {
     )
 }
 
-export default FormNewSeller
+export default FormEditSeller
