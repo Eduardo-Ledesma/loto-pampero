@@ -18,7 +18,7 @@ const Userlogged = () => {
     return (
         <>
             <h2 className="mt-10 md:mt-0 mb-20 text-6xl font-black underline text-center lg:text-left">Clientes</h2>
-            {clients.length ? (
+            {clients?.length ? (
                 <table className="w-full mt-10 table-auto bg-indigo-800 rounded-lg bg-opacity-70">
                     <thead className="bg-indigo-600 bg-opacity-50">
                         <tr>
@@ -42,7 +42,7 @@ const Userlogged = () => {
             )}
 
             <h2 className="mt-14 md:mt-20 mb-20 text-6xl font-black underline text-center lg:text-left">Lotos de la Semana</h2>
-            {lottery.length ? (
+            {lottery?.length ? (
                 <table className="w-full my-10 table-auto bg-indigo-800 rounded-lg bg-opacity-70">
                 <thead className="bg-indigo-600 bg-opacity-50">
                     <tr>

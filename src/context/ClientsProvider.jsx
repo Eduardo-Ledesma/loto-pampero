@@ -193,7 +193,7 @@ const ClientsProvider = ({children}) => {
                 }
             })
             const result = await response.json()
-            setLottery(result.clients)
+            setLottery(result.plays)
         } catch (error) {
             console.log(error)
         }
