@@ -10,6 +10,7 @@ import AuthLayout from './layouts/AuthLayout'
 import Index from './pages/Index'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
+import ChangePassword from './pages/changePassword'
 
 import ProtectedLayout from './layouts/ProtectedLayout'
 import Userlogged from './pages/Userlogged'
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: '/password/reset',
         element: <ResetPassword />
+      },     
+      {
+        path: '/password/change',
+        element: <ChangePassword />
       }     
     ]
   },

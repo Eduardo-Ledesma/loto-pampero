@@ -24,7 +24,6 @@ const ForgotPassword = () => {
 
     return (
         <>
-            
             <form 
                 className={styles.form}
                 onSubmit={handleSubmit}

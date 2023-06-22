@@ -12,8 +12,9 @@ const ClientsProvider = ({children}) => {
     const [alert, setAlert] = useState({})
     const [loading, setLoading] = useState(false)
     const [noClients, setNoClients] = useState(false)
+    const [lottery, setLottery] = useState([])
 
-    const { tokenLS } = useAuth()
+    const { tokenLS, logout } = useAuth()
     const urlAPI = import.meta.env.VITE_API_LOTO
 
     const showAlert = alert => {
@@ -21,6 +22,19 @@ const ClientsProvider = ({children}) => {
         setTimeout(() => {
             setAlert({})
         }, 3500);
+    }
+
+    const showError = () => {
+        Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Ups, ocurrió un error... lo sentimos.',
+            showConfirmButton: false,
+            timer: 2400,
+            customClass: {
+                popup: `${styles.sweetEdit}`
+            }
+        })
     }
 
     // Obtener los clientes del vendedor
@@ -35,6 +49,10 @@ const ClientsProvider = ({children}) => {
                 }
             })
             const result = await response.json()
+            if(result.message === 'TokenExpiredError') {
+                logout()
+                return
+            }
             setNoClients(false)
             setClients(result.clients);
         } catch (error) {
@@ -42,25 +60,6 @@ const ClientsProvider = ({children}) => {
             setNoClients(true)
         }
     }
-    // useEffect(() => {
-    //     const getClients = async () => {
-    //         try {
-    //             if(!tokenLS) return
-                
-    //             const response = await fetch(`${urlAPI}/clients`, {
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                     Authorization: `Bearer ${tokenLS}`
-    //                 }
-    //             })
-    //             const result = await response.json()
-    //             setClients(result.clients);
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-    //     }
-    //     getClients()
-    // }, [tokenLS, clients])
 
     // Submit al formulario, depende si agrego nuevo o edito
     const submitClient = async client => {
@@ -99,20 +98,12 @@ const ClientsProvider = ({children}) => {
                     }
                 })
             } else {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Ups, ocurrió un error... lo sentimos.',
-                    showConfirmButton: false,
-                    timer: 2400,
-                    customClass: {
-                        popup: `${styles.sweetEdit}`
-                    }
-                })
+                showError()
             }
             
         } catch (error) {
-            console.log(error);
+            console.log(error)
+            showError()
         }
     }
 
@@ -162,20 +153,12 @@ const ClientsProvider = ({children}) => {
                     }
                 })
             } else {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Ups, ocurrió un error... lo sentimos.',
-                    showConfirmButton: false,
-                    timer: 2400,
-                    customClass: {
-                        popup: `${styles.sweetEdit}`
-                    }
-                })
+                showError()
             }
             
         } catch (error) {
-            console.error(error);
+            console.error(error)
+            showError()
         }
     }
 
@@ -194,10 +177,49 @@ const ClientsProvider = ({children}) => {
             const updatedClients = clients.filter(client => client.id !== id)
             setClients(updatedClients)
         } catch (error) {
-            console.log(error);
+            console.log(error)
+            showError()
         }
     }
     
+    const showLottery = async () => {
+        try {
+            if(!tokenLS) return
+            
+            const response = await fetch(`${urlAPI}/plays`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${tokenLS}`
+                }
+            })
+            const result = await response.json()
+            setLottery(result.clients)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // Agregar lotos nuevos
+    const newLottery = async data =>  {
+        
+        try {
+            if(!tokenLS) return
+
+            const response = await fetch(`${urlAPI}/plays`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${tokenLS}`
+                }
+            })
+            const result = await response.json()
+            console.log(lottery)
+            console.log(result.play)
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <ClientsContext.Provider
@@ -213,7 +235,10 @@ const ClientsProvider = ({children}) => {
                 alert,
                 loading,
                 deleteClient,
-                noClients
+                noClients,
+                showLottery,
+                lottery,
+                newLottery
             }}
         >
             {children}

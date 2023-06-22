@@ -1,17 +1,9 @@
-import { useEffect } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import FormEditSeller from '../components/FormEditSeller'
-import useAdmin from "../hooks/useAdmin"
+import { useNavigate } from "react-router-dom"
+import FormNewSeller from '../components/FormNewSeller'
 
 const EditSeller = () => {
 
-    // const params = useParams()
     const navigate = useNavigate()
-    // const { getSeller, loading } = useAdmin()
-
-    // useEffect(() => {
-    //     getSeller(params.sellerId)
-    // }, [])
 
     return (
         <>
@@ -28,7 +20,7 @@ const EditSeller = () => {
             </div>
 
             <div className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-2/4 mx-auto px-5 py-10 bg-opacity-70 mb-20">
-                <FormEditSeller />
+                <FormNewSeller />
             </div>
 
         </>

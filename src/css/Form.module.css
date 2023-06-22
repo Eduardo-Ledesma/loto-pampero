@@ -57,6 +57,11 @@
 }
 @media (min-width: 480px) {
   .form .loginBtn {
+      width: 75%;
+  }
+}
+@media (min-width: 768px) {
+  .form .loginBtn {
       width: 50%;
   }
 }
@@ -65,13 +70,18 @@
   cursor: pointer;
 }
 .input_reset {
-  width: 50%;
+  width: 75%;
   padding: 1rem;
   background: none;
   border: none;
   border: 1px solid #FFF;
   color: #FFF;
   font-size: 2rem;
+}
+@media (min-width: 768px) {
+  .input_reset {
+    width: 50%;
+  }
 }
 
 .nav {

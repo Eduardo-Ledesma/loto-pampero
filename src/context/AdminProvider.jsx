@@ -8,10 +8,8 @@ const AdminContext = createContext()
 const AdminProvider = ({children}) => {
 
     const [sellers, setSellers] = useState([])
-    const [seller, setSeller] = useState({})
     const [noSellers, setNoSellers] = useState(false)
     const [alert, setAlert] = useState({})
-    const [loading, setLoading] = useState(false)
 
     const { tokenAdminLS } = useAuth()
     const urlAPI = import.meta.env.VITE_API_LOTO
@@ -23,6 +21,19 @@ const AdminProvider = ({children}) => {
         }, 3000);
     }
 
+    const showError = () => {
+        Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Ups, ocurrió un error... lo sentimos.',
+            showConfirmButton: false,
+            timer: 2400,
+            customClass: {
+                popup: `${styles.sweetEdit}`
+            }
+        })
+    }
+    
     // Obtener los vendedores para el admin
     const getSellersAdmin = async () => {
         if(!tokenAdminLS) return
@@ -44,17 +55,7 @@ const AdminProvider = ({children}) => {
             setNoSellers(true)
         }
     }
-
-    // Submit al formulario, depende si agrego nuevo o edito
-    const submitSeller = async seller => {
-        await addSeller(seller)
-        // if(seller.id) {
-        //     editClient(seller)
-        // } else {
-        //     addClient(seller)
-        // }
-    }
-
+    
     // Nuevos clientes
     const addSeller = async (seller) => {
         if(!tokenAdminLS) return
@@ -82,43 +83,13 @@ const AdminProvider = ({children}) => {
                     }
                 })
             } else {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Ups, ocurrió un error... lo sentimos.',
-                    showConfirmButton: false,
-                    timer: 2400,
-                    customClass: {
-                        popup: `${styles.sweetEdit}`
-                    }
-                })
+                showError()
             }
 
         } catch (error) {
             console.log(error);
-            
+            showError()
         }
-    }
-
-    // Obtener un cliente en específico para editarlo
-    const getSeller = async (id) => {
-        if(!tokenAdminLS) return
-
-        setLoading(true)
-        try {
-            const response = await fetch(`${urlAPI}/admin/${id}`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${tokenAdminLS}`
-                }
-            })
-            const seller = await response.json()
-            console.log(seller);
-            // setSeller()
-            setLoading(false)
-        } catch (error) {
-            console.log(error);
-        } 
     }
 
     // Confirmar editar cliente
@@ -150,9 +121,9 @@ const AdminProvider = ({children}) => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Ups, ocurrió un error... lo sentimos.',
+                    title: 'El email ya se encuentra en uso',
                     showConfirmButton: false,
-                    timer: 2400,
+                    timer: 3500,
                     customClass: {
                         popup: `${styles.sweetEdit}`
                     }
@@ -161,6 +132,7 @@ const AdminProvider = ({children}) => {
             
         } catch (error) {
             console.error(error);
+            showError()
         }
     }
 
@@ -180,6 +152,7 @@ const AdminProvider = ({children}) => {
             setSellers(updatedSellers)
         } catch (error) {
             console.log(error);
+            showError()
         }
     }
     
@@ -190,8 +163,7 @@ const AdminProvider = ({children}) => {
             noSellers,
             showAlert,
             alert,
-            submitSeller,
-            getSeller,
+            addSeller,
             editSeller,
             deleteSeller
         }}

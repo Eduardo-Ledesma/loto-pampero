@@ -22,7 +22,7 @@ const FormEditSeller = () => {
             const filterSeller = sellers.filter( seller => seller.id === +params.sellerId)
             setName(filterSeller[0].name)
             setEmail(filterSeller[0].email)
-    }, [])
+    }, [params.sellerId])
 
     const handleSubmit = async e => {
         e.preventDefault()

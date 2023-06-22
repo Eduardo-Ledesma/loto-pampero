@@ -44,7 +44,11 @@ const AsideAdmin = () => {
                         </Link>
                     </nav>
         
-                    <Link className="block mt-20 text-3xl underline hover:text-blue-400 transition-colors" to="/">Cambiar Contraseña</Link>
+                    <Link className="block mt-20 text-3xl underline hover:text-blue-400 transition-colors" 
+                        to="/password/change"
+                    >
+                        Cambiar Contraseña
+                    </Link>
                     <button
                         type="button"
                         className="bg-red-700 p-3 rounded-md text-2xl uppercase font-bold mt-12 hover:bg-red-900 transition-colors"

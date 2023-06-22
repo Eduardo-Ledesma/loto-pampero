@@ -1,6 +1,5 @@
-import { useNavigate, Form } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import FormNewLottery from "../components/FormNewLottery"
-
 
 const NewLottery = () => {
     const navigate = useNavigate()
@@ -20,20 +19,7 @@ const NewLottery = () => {
         </div>
 
         <div className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-2/4 mx-auto px-5 py-10 bg-opacity-70 mb-20">
-
-            <Form
-                method="POST"
-            >
-            <legend className="text-center mb-20 text-5xl font-bold">Completa los siguientes campos</legend>
-                <FormNewLottery 
-                
-                />
-            
-            <input type="submit"  value="Cargar Nuevo Loto"
-                    className="uppercase bg-stone-800 font-bold rounded-lg px-4 py-2 mt-20 
-                    hover:cursor-pointer hover:bg-stone-700 transition-colors w-full lg:w-3/4 lg:block mx-auto"
-            />
-            </Form>
+            <FormNewLottery />
         </div>
     </>
     )

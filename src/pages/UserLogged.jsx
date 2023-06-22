@@ -6,11 +6,12 @@ import useClients from "../hooks/useClients"
 
 const Userlogged = () => {
 
-    const { clients, setClient, getClients, noClients } = useClients()
+    const { clients, setClient, getClients, noClients, showLottery, lottery } = useClients()
 
     useEffect(() => {
         setClient({})
         getClients()
+        showLottery()
     }, [])
 
 
@@ -41,7 +42,7 @@ const Userlogged = () => {
             )}
 
             <h2 className="mt-14 md:mt-20 mb-20 text-6xl font-black underline text-center lg:text-left">Lotos de la Semana</h2>
-            {/* {lotteryAll.length ? (
+            {lottery.length ? (
                 <table className="w-full my-10 table-auto bg-indigo-800 rounded-lg bg-opacity-70">
                 <thead className="bg-indigo-600 bg-opacity-50">
                     <tr>
@@ -51,17 +52,17 @@ const Userlogged = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {lotteryAll.map( lottery => (
+                    {lottery.map( lot => (
                         <Lottery
-                            lottery={lottery}
-                            key={lottery.id}
+                            lottery={lot}
+                            key={lot.id}
                         />
                     ))}
                 </tbody>
             </table>
             ) : (
                 <p className="text-center mt-10">Aún no tienes lotos creados</p>
-            )} */}
+            )}
         </>
     )
 }

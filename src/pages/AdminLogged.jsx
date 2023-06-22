@@ -9,11 +9,11 @@ const AdminLogged = () => {
     useEffect(() => {
         getSellersAdmin()
     }, [])
-
+    
     return (
         <>
             <h2 className="mt-10 md:mt-0 mb-20 text-6xl font-black underline text-center lg:text-left">Vendedores</h2>
-            { sellers.length ? (
+            { sellers?.length ? (
                 <table className="w-full mt-10 table-auto bg-indigo-800 rounded-lg bg-opacity-70">
                     <thead className="bg-indigo-600 bg-opacity-50">
                         <tr>

@@ -5,49 +5,82 @@ import useAdmin from "../hooks/useAdmin"
 
 const FormNewSeller = () => {
 
-    // const [id, setId] = useState(null)
+    const [id, setId] = useState(null)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
     
-    const { showAlert, alert, submitSeller } = useAdmin()
+    const { showAlert, alert, addSeller, editSeller, sellers } = useAdmin()
     const navigate = useNavigate()
-    // const params = useParams()
+    const params = useParams()
 
-    // useEffect( () => {
-    //     if(seller.name) {
-    //         console.log('hola');
-    //     }
-    // }, [params])
+    useEffect( () => {
+        
+        if(params.sellerId) {
+            setId(+params.sellerId)
+            
+            const filterSeller = sellers.filter( seller => seller.id === +params.sellerId)
+            setName(filterSeller[0].name)
+            setEmail(filterSeller[0].email)
+        }
+            
+    }, [params])
 
     const handleSubmit = async e => {
         e.preventDefault()
         
-        if([name,email,password,repeatPassword].includes('') || !name.trim() || !password.trim() || !repeatPassword.trim()) {
-            showAlert({
-                msg: 'Todos los campos son obligatorios',
-                error: true
-            })
-            return
+        // Si tiene ID edito
+        if(params.sellerId) {
+            if(email) {
+                if(!/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/.test(email)) {
+                    showAlert({
+                        msg: 'Email no válido',
+                        error: true
+                    })
+                    return
+                }
+            }
+            
+            if(password !== repeatPassword) {
+                showAlert({
+                    msg: 'Las contraseñas no coinciden',
+                    error: true
+                })
+                return
+            }
+    
+            await editSeller({name,email,password,id})
+            
+        } else { // No tiene id asi que creo un vendedor nuevo
+            if([name,email,password,repeatPassword].includes('') || !name.trim() || !password.trim() || !repeatPassword.trim()) {
+                showAlert({
+                    msg: 'Todos los campos son obligatorios',
+                    error: true
+                })
+                return
+            }
+            if(!/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/.test(email)) {
+                showAlert({
+                    msg: 'Email no válido',
+                    error: true
+                })
+                return
+            }
+            if(password !== repeatPassword) {
+                showAlert({
+                    msg: 'Las contraseñas no coinciden',
+                    error: true
+                })
+                return
+            }
+    
+            await addSeller({name,email,password})
+            
+            
         }
-        if(!/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/.test(email)) {
-            showAlert({
-                msg: 'Email no válido',
-                error: true
-            })
-            return
-        }
-        if(password !== repeatPassword) {
-            showAlert({
-                msg: 'Las contraseñas no coinciden',
-                error: true
-            })
-            return
-        }
-
-        await submitSeller({name,email,password})
-
+        
+        setId(null)
         setName('')
         setEmail('')
         setPassword('')
