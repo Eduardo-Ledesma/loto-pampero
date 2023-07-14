@@ -160,7 +160,7 @@ const AdminProvider = ({children}) => {
         if(!tokenAdminLS) return
         console.log(lottery)
         try {
-            const response = await fetch(`${urlAPI}/admin/lottery`, {
+            const response = await fetch(`${urlAPI}/lottery`, {
                 method: 'POST',
                 body: JSON.stringify(lottery),
                 headers: {
