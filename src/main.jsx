@@ -26,6 +26,7 @@ import NewSeller from './pages/NewSeller'
 import EditSeller from './pages/EditSeller'
 
 import CloseLottery from './pages/CloseLottery'
+import Winners from './pages/Winners'
 
 import AdminLogged from './pages/AdminLogged'
 
@@ -105,6 +106,10 @@ const router = createBrowserRouter([
       {
         path: 'closelottery',
         element: <CloseLottery />
+      },
+      {
+        path: 'winners/:id',
+        element: <Winners />
       }
     ]
   }

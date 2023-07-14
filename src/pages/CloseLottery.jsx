@@ -53,17 +53,26 @@ const CloseLottery = () => {
 
         const numbersObj = {n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20}
 
-        await closeLottery(numbersObj)
-        // Swal.fire({
-        //     position: 'center',
-        //     icon: 'success',
-        //     title: '¡¡¡Nora Higonet Ganó 50 millones de dólares!!!',
-        //     showConfirmButton: false,
-        //     timer: 3000,
-        //     customClass: {
-        //         popup: `${styles.sweetEdit}`
-        //     }
-        // })
+        const result = await closeLottery(numbersObj)
+        if(result === 2) {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Lo sentimos, ocurrió un error',
+                showConfirmButton: false,
+                timer: 2400,
+                customClass: {
+                    popup: `${styles.sweetEdit}`
+                }
+            })
+            return
+        }
+
+        setTimeout(() => {
+            navigate('/adminlogged')
+        }, 3000);
+        
+        // TODO: reiniciar el formulario, no lo hago ahora porque lo necesito completo para agilizar las pruebas
     }
 
     const { msg } = alert

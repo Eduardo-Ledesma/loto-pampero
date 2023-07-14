@@ -10,6 +10,9 @@ const AdminProvider = ({children}) => {
     const [sellers, setSellers] = useState([])
     const [noSellers, setNoSellers] = useState(false)
     const [alert, setAlert] = useState({})
+    const [showLotteries, setLotteries] = useState([])
+    const [lotteryById, setLotteryById] = useState({})
+    const [winners, setWinners] = useState({})
 
     const { tokenAdminLS } = useAuth()
     const urlAPI = import.meta.env.VITE_API_LOTO
@@ -156,9 +159,47 @@ const AdminProvider = ({children}) => {
         }
     }
 
+    const getLotteries = async () => {
+        if(!tokenAdminLS) return
+
+        try {
+            const response = await fetch(`${urlAPI}/lottery`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${tokenAdminLS}`
+                }            
+            })
+            const result = await response.json()
+            setLotteries(result.lottery)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getLottery = async id => {
+        if(!tokenAdminLS) return
+        
+        try {
+            const response = await fetch(`${urlAPI}/lottery/${id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${tokenAdminLS}`
+                }            
+            })
+            const result = await response.json()
+            if(response.ok) {
+                setLotteryById(result.lottery)
+                setWinners(result.winners)
+            }
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const closeLottery = async lottery => {
         if(!tokenAdminLS) return
-        console.log(lottery)
+
         try {
             const response = await fetch(`${urlAPI}/lottery`, {
                 method: 'POST',
@@ -168,9 +209,28 @@ const AdminProvider = ({children}) => {
                     Authorization: `Bearer ${tokenAdminLS}`
                 }            
             })
-            console.log(response)
+        
+            const result = await response.json()
+            if(response.ok) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: result.msg,
+                    showConfirmButton: false,
+                    timer: 2950,
+                    customClass: {
+                        popup: `${styles.sweetEdit}`
+                    }
+                })
+                return 1
+            } else {
+                console.log(response);
+                return 2
+            }
+
         } catch (error) {
             console.log(error)
+            return 2
         }
     } 
     
@@ -184,7 +244,12 @@ const AdminProvider = ({children}) => {
             addSeller,
             editSeller,
             deleteSeller,
-            closeLottery
+            closeLottery,
+            getLotteries,
+            showLotteries,
+            getLottery,
+            lotteryById,
+            winners
         }}
     >
         {children}

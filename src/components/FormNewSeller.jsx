@@ -96,7 +96,7 @@ const FormNewSeller = () => {
         <form
             onSubmit={handleSubmit}
             noValidate
-            className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-3/4 mx-auto px-5 py-10 bg-opacity-70 mb-20"
+            className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-3/4 mx-auto p-10 bg-opacity-70 mb-20"
         >
             { msg && <AlertApi alert={alert} /> }
             <legend className="text-center mb-20 text-5xl font-bold">Completa los siguientes campos</legend>

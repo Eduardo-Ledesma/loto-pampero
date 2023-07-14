@@ -179,6 +179,7 @@ const ClientsProvider = ({children}) => {
             })
             const updatedClients = clients.filter(client => client.id !== id)
             setClients(updatedClients)
+            showLottery()
         } catch (error) {
             console.log(error)
             showError()
