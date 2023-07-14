@@ -18,7 +18,7 @@ const AdminProvider = ({children}) => {
         setAlert(alert)
         setTimeout(() => {
             setAlert({})
-        }, 3000);
+        }, 3500);
     }
 
     const showError = () => {
@@ -155,6 +155,24 @@ const AdminProvider = ({children}) => {
             showError()
         }
     }
+
+    const closeLottery = async lottery => {
+        if(!tokenAdminLS) return
+        console.log(lottery)
+        try {
+            const response = await fetch(`${urlAPI}/admin/lottery`, {
+                method: 'POST',
+                body: JSON.stringify(lottery),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${tokenAdminLS}`
+                }            
+            })
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+    } 
     
     return <AdminContext.Provider
         value={{
@@ -165,7 +183,8 @@ const AdminProvider = ({children}) => {
             alert,
             addSeller,
             editSeller,
-            deleteSeller
+            deleteSeller,
+            closeLottery
         }}
     >
         {children}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import useClients from "../hooks/useClients"
 import { useParams, useNavigate } from "react-router-dom"
-import Alert from "./Alert"
+import AlertApi from "./AlertApi"
 
 const FormNewClient = () => {
 
@@ -39,8 +39,14 @@ const FormNewClient = () => {
             return
         } 
 
-        await submitClient({id,name,n1,n2,n3,n4})
-        
+        const result = await submitClient({id,name,n1,n2,n3,n4})
+        if(result === 1) {
+            showAlert({
+                msg: 'Ya existe un cliente con el nombre elegido',
+                error: true
+            })
+            return
+        }
         setId(null)
         setName('')
         setN1('')
@@ -59,8 +65,9 @@ const FormNewClient = () => {
 
         <form
             onSubmit={handleSubmit}
+            className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-3/4 mx-auto px-5 py-10 bg-opacity-70 mb-20"
         >
-            { msg && <Alert alert={alert} /> }
+            { msg && <AlertApi alert={alert} /> }
             <legend className="text-center mb-20 text-5xl font-bold">Completa los siguientes campos</legend>
             
             <div className="flex flex-col lg:flex-row mb-12">

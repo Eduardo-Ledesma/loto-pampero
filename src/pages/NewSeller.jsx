@@ -26,9 +26,7 @@ const NewSeller = () => {
                     </button>
                 </div>
 
-                <div className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-2/4 mx-auto px-5 py-10 bg-opacity-70 mb-20">
-                    <FormNewSeller />         
-                </div>
+                <FormNewSeller />         
             </div>
             )
         }

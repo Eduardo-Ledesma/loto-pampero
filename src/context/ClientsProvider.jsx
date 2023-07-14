@@ -66,7 +66,8 @@ const ClientsProvider = ({children}) => {
         if(client.id) {
             editClient(client)
         } else {
-            addClient(client)
+            const result = addClient(client)
+            return result
         }
     }
 
@@ -84,9 +85,11 @@ const ClientsProvider = ({children}) => {
                 }
             })
             const result = await response.json()
-
-            setClients([...clients, result.client])
-            if(result.client.name) {
+            
+            if(result.message) {
+                return 1
+            } else if(result.client.name) {
+                setClients([...clients, result.client])
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
@@ -201,10 +204,9 @@ const ClientsProvider = ({children}) => {
 
     // Agregar lotos nuevos
     const newLottery = async data =>  {
-        
-        try {
-            if(!tokenLS) return
+        if(!tokenLS) return
 
+        try {
             const response = await fetch(`${urlAPI}/plays`, {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -213,9 +215,30 @@ const ClientsProvider = ({children}) => {
                     Authorization: `Bearer ${tokenLS}`
                 }
             })
-            const result = await response.json()
-            console.log(lottery)
-            console.log(result.play)
+            
+            if(!response.ok) {
+                return 1
+            } else {
+                return 2
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const deleteLottery = async id => {
+        try {
+            if(!tokenLS) return
+
+            await fetch(`${urlAPI}/plays/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${tokenLS}`
+                }
+            })
+            const updatedLottery = lottery.filter( lot => lot.id !== id)
+            setLottery(updatedLottery)
         } catch (error) {
             console.log(error);
         }
@@ -238,7 +261,8 @@ const ClientsProvider = ({children}) => {
                 noClients,
                 showLottery,
                 lottery,
-                newLottery
+                newLottery,
+                deleteLottery
             }}
         >
             {children}

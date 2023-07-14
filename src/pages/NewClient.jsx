@@ -2,23 +2,6 @@ import { useNavigate } from "react-router-dom"
 import FormNewClient from "../components/FormNewClient"
 import useClients from "../hooks/useClients"
 
-// export async function action({request}) {
-
-//     const formData = await request.formData()
-//     const data = Object.fromEntries(formData)
-
-//     // Validate
-//     const fullName = formData.get('fullName')
-//     const error = []
-//     if(Object.values(data).includes('') || !fullName.trim()) {
-//         error.push('Todos los campos son obligatorios');
-//         return error
-//     }
-//     await addClient(data)
-
-//     return redirect('/userlogged')
-// }
-
 const NewClient = () => {
 
     const navigate = useNavigate()
@@ -42,9 +25,7 @@ const NewClient = () => {
                     </button>
                 </div>
 
-                <div className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-2/4 mx-auto px-5 py-10 bg-opacity-70 mb-20">
-                    <FormNewClient />            
-                </div>
+                <FormNewClient />            
             </div>
             )
         }

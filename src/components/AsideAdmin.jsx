@@ -25,7 +25,7 @@ const AsideAdmin = () => {
     return (
         <>
             { tokenAdmin.length || tokenAdminLS.length ? authLS.role === 1 ? (
-                <aside className="mx-8 text-center md:text-left">
+                <aside className="mx-8 text-center md:text-left border-b-2 md:border-none pb-20 md:p-0 md:w-1/3 lg:w-1/5">
                     <h2 className="text-4xl pt-1 font-bold">Bienvenido/a {authLS.name}!</h2>
     
                     <nav>

@@ -25,7 +25,7 @@ const Aside = () => {
     return (
         <>
             { token.length || tokenLS.length ? (
-                <aside className="mx-8 text-center md:text-left">
+                <aside className="mx-8 text-center md:text-left border-b-2 md:border-none pb-20 md:p-0 md:w-1/4 lg:w-1/5">
                     <h2 className="text-4xl pt-1 font-bold">Bienvenido/a {authLS.name}!</h2>
 
                     <nav>

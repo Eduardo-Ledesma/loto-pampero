@@ -32,7 +32,7 @@ const ForgotPassword = () => {
                     A continuación introduce tu correo electrónico y te enviaremos un enlace para que puedas actualizar tu contraseña
                 </legend>
                 { msg && <Alert alert={alert} />}
-                <div className='flex justify-center my-12'>
+                <div className='flex justify-center mb-12 mt-20'>
                     <input className={styles.input_reset} type="email" name="email" id="email"
                         placeholder="Correo electrónico" 
                         value={email}
@@ -40,7 +40,7 @@ const ForgotPassword = () => {
                     />
                 </div> 
 
-                <div className='flex justify-center mb-12'> 
+                <div className='flex justify-center px-6 md:p-0 mb-12'> 
                 <input 
                     type="submit"
                     className={styles.loginBtn}
@@ -48,7 +48,7 @@ const ForgotPassword = () => {
                 />
                 </div>  
 
-                <Link className={styles.nav_enlace} to="/">Volver al inicio de sesión</Link>
+                <Link className={`pl-6 md:p-0 styles.nav_enlace`} to="/">Volver al inicio de sesión</Link>
             </form>
         </>
     )

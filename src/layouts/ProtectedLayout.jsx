@@ -11,7 +11,7 @@ const ProtectedLayout = () => {
             <HeaderLogged />
 
             <div className="md:flex md:min-h-screen">
-                <Aside className="px-12" />
+                <Aside />
                 
                 <main className="sm:px-10 pt-20 md:pt-0 flex-1 md:border-l border-white">
                     <Outlet />

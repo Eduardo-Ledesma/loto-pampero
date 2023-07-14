@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import Alert from "./Alert"
+import AlertApi from "./AlertApi"
 import useAdmin from "../hooks/useAdmin"
 
 const FormEditSeller = () => {
@@ -64,7 +64,7 @@ const FormEditSeller = () => {
             onSubmit={handleSubmit}
             noValidate
         >
-            { msg && <Alert alert={alert} /> }
+            { msg && <AlertApi alert={alert} /> }
             <legend className="text-center mb-20 text-5xl font-bold">Completa el o los campos que quieras editar</legend>
 
             <div className="flex flex-col lg:flex-row mb-12">
@@ -103,9 +103,9 @@ const FormEditSeller = () => {
                 />
             </div>
 
-            <input type="submit"  value={'Guardar Cambios'}
-                    className="uppercase bg-stone-800 font-bold rounded-lg px-4 py-2 mt-20 
-                    hover:cursor-pointer hover:bg-stone-700 transition-colors w-full lg:w-3/4 lg:block mx-auto"
+            <input type="submit"  value='Guardar Cambios'
+                    className="uppercase bg-amber-600 font-bold rounded-lg px-4 py-2 mb-4 mt-20 
+                    hover:cursor-pointer hover:bg-amber-700 transition-colors w-full lg:w-3/4 lg:block mx-auto"
             />
         </form>
     )

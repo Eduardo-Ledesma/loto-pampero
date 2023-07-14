@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import Alert from "./Alert"
+import AlertApi from "./AlertApi"
 import useAdmin from "../hooks/useAdmin"
 
 const FormNewSeller = () => {
@@ -96,8 +96,9 @@ const FormNewSeller = () => {
         <form
             onSubmit={handleSubmit}
             noValidate
+            className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-3/4 mx-auto px-5 py-10 bg-opacity-70 mb-20"
         >
-            { msg && <Alert alert={alert} /> }
+            { msg && <AlertApi alert={alert} /> }
             <legend className="text-center mb-20 text-5xl font-bold">Completa los siguientes campos</legend>
 
             <div className="flex flex-col lg:flex-row mb-12">
@@ -136,9 +137,9 @@ const FormNewSeller = () => {
                 />
             </div>
 
-            <input type="submit"  value={'Agregar Nuevo Vendedor'}
+            <input type="submit"  value='Agregar Nuevo Vendedor'
                     className="uppercase bg-stone-800 font-bold rounded-lg px-4 py-2 mt-20 
-                    hover:cursor-pointer hover:bg-stone-700 transition-colors w-full lg:w-3/4 lg:block mx-auto"
+                    hover:cursor-pointer hover:bg-stone-700 text-4xl transition-colors w-full lg:w-3/4 lg:block mx-auto"
             />
         </form>
     )

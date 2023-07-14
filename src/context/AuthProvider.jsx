@@ -48,6 +48,8 @@ const AuthProvider = ({children}) => {
         setAuth({})
         setToken('')
         setTokenAdmin('')
+        setAuthLS({})
+        setTokenLS('')
         localStorage.removeItem('data')
         localStorage.removeItem('token')
         localStorage.removeItem('tokenAdmin')
