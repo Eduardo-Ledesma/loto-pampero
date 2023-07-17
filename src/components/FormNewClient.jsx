@@ -102,8 +102,8 @@ const FormNewClient = () => {
             </div>
             
             <input type="submit"  value={params?.clientId ? 'Editar Cliente' : 'Agregar Nuevo Cliente'}
-                    className="uppercase bg-stone-800 font-bold rounded-lg px-4 py-2 mt-20 
-                    hover:cursor-pointer hover:bg-stone-700 transition-colors w-full lg:w-3/4 lg:block mx-auto"
+                    className="uppercase bg-slate-900 font-bold text-4xl rounded-full px-4 py-4 mt-20 
+                    hover:cursor-pointer hover:bg-slate-800 transition-colors w-full lg:w-2/4 lg:block mx-auto"
             />
         </form>
     )

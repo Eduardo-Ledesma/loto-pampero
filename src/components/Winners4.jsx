@@ -10,10 +10,10 @@ const Winners4 = ({winner}) => {
 
             <div className="">
                 <ul className="flex justify-around md:justify-between mb-2">
-                    <li className="border-2 rounded-lg border-blue-500 p-2 px-4">{n1}</li>
-                    <li className="border-2 rounded-lg border-blue-500 p-2 px-4">{n2}</li>
-                    <li className="border-2 rounded-lg border-blue-500 p-2 px-4">{n3}</li>
-                    <li className="border-2 rounded-lg border-blue-500 p-2 px-4">{n4}</li>
+                    <li className="border-2 rounded-lg border-blue-500 p-2 font-bold text-gray-300 px-4">{n1}</li>
+                    <li className="border-2 rounded-lg border-blue-500 p-2 font-bold text-gray-300 px-4">{n2}</li>
+                    <li className="border-2 rounded-lg border-blue-500 p-2 font-bold text-gray-300 px-4">{n3}</li>
+                    <li className="border-2 rounded-lg border-blue-500 p-2 font-bold text-gray-300 px-4">{n4}</li>
                 </ul>
             </div>
             <p className="text-3xl mt-6 text-gray-300 font-bold">Vendedor: {sellerName}</p>

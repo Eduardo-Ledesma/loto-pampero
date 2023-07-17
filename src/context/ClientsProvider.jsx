@@ -14,7 +14,7 @@ const ClientsProvider = ({children}) => {
     const [noClients, setNoClients] = useState(false)
     const [lottery, setLottery] = useState([])
 
-    const { tokenLS, logout } = useAuth()
+    const { tokenLS, logout, tokenAdminLS } = useAuth()
     const urlAPI = import.meta.env.VITE_API_LOTO
 
     const showAlert = alert => {
@@ -41,7 +41,11 @@ const ClientsProvider = ({children}) => {
     const getClients = async () => {
         try {
             if(!tokenLS) return
+            // let token;
+            // tokenLS.length ? token = tokenLS : token = false 
+            // tokenAdminLS.length ? token = tokenAdminLS : token = false 
             
+
             const response = await fetch(`${urlAPI}/clients`, {
                 headers: {
                     "Content-Type": "application/json",
@@ -53,6 +57,7 @@ const ClientsProvider = ({children}) => {
                 logout()
                 return
             }
+            console.log(result);
             setNoClients(false)
             setClients(result.clients);
         } catch (error) {
@@ -73,7 +78,7 @@ const ClientsProvider = ({children}) => {
 
     // Nuevos clientes
     const addClient = async (client) => {
-        if(!tokenLS) return
+        
 
         try {
             const response = await fetch(`${urlAPI}/clients`, {
@@ -209,7 +214,8 @@ const ClientsProvider = ({children}) => {
     // Agregar lotos nuevos
     const newLottery = async data =>  {
         if(!tokenLS) return
-        
+        console.log(data);
+        return
         try {
             const response = await fetch(`${urlAPI}/plays`, {
                 method: 'POST',

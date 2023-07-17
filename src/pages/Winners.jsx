@@ -93,7 +93,7 @@ const Winners = () => {
                         </div>
                     </section>
                 ) : (
-                    <p className="mt-20 font-bold text-gray-300">No hay ganadores con 4 aciertos.</p>
+                    <p className="mt-20 font-bold text-red-500">No hay ganadores con 4 aciertos.</p>
                 )}
                 
                 { winnersW3?.length ? ( 
@@ -121,7 +121,7 @@ const Winners = () => {
                         </div>
                     </section>
                 ) : (
-                    <p className="mt-10 font-bold text-gray-300">No hay ganadores con 3 aciertos.</p>
+                    <p className="mt-10 font-bold text-red-500">No hay ganadores con 3 aciertos.</p>
                 )}
 
                 { winnersW2?.length ? ( 
@@ -129,7 +129,7 @@ const Winners = () => {
                         <div className="flex gap-2 mb-10 items-center justify-center lg:justify-start">
                             <h2 className="font-bold text-gray-300 text-5xl">Ganadores con 
                             <span className="text-green-500"> 2</span> aciertos</h2>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trophy" width="40" height="40" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#97330f" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trophy" width="40" height="40" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#c54719" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                 <path d="M8 21l8 0" />
                                 <path d="M12 17l0 4" />
@@ -139,7 +139,7 @@ const Winners = () => {
                                 <path d="M19 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
                             </svg>
                         </div>
-                        <div className="flex flex-wrap justify-center lg:justify-start gap-10">
+                        <div className="flex flex-wrap justify-center lg:justify-start gap-10 pb-10">
                             { winnersW2.map(winner => (
                                 <Winners4 
                                     key={winner.id}
@@ -149,7 +149,7 @@ const Winners = () => {
                         </div>
                     </section>
                 ) : (
-                    <p className="mt-10 font-bold text-gray-300">No hay ganadores con 2 aciertos.</p>
+                    <p className="mt-10 font-bold text-red-500">No hay ganadores con 2 aciertos.</p>
                 )}  
                 </div>
             </article>

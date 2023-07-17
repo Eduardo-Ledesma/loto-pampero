@@ -216,12 +216,12 @@ const AdminProvider = ({children}) => {
                 }            
             })
         
-            const result = await response.json()
+            await response.json()
             if(response.ok) {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: result.msg,
+                    title: 'Sorteo finalizado correctamente!',
                     showConfirmButton: false,
                     timer: 2950,
                     customClass: {
@@ -239,6 +239,7 @@ const AdminProvider = ({children}) => {
             return 2
         }
     } 
+
     
     return <AdminContext.Provider
         value={{
@@ -258,7 +259,7 @@ const AdminProvider = ({children}) => {
             winners,
             winnersW4,
             winnersW3,
-            winnersW2
+            winnersW2,
         }}
     >
         {children}

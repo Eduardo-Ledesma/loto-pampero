@@ -5,9 +5,10 @@ import Swal from "sweetalert2";
 import AlertApi from "./AlertApi"
 import styles from '../css/HeaderNav.module.css'
 
-const FormNewLottery = () => {
+const FormNewLottery = ({formNoRegistered}) => {
 
-    const [userName, setUserName] = useState('')
+    const [userNameSelect, setUserNameSelect] = useState('')
+    const [userNameInput, setUserNameInput] = useState('')
     const [clientState, setClientState] = useState({})
     const [n1, setN1] = useState('')
     const [n2, setN2] = useState('')
@@ -18,7 +19,7 @@ const FormNewLottery = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-            const client = clients.filter(client => client.name === userName)
+            const client = clients.filter(client => client.name === userNameSelect)
             if(client.length) {
                 setClientState(client[0])
                 setN1(client[0].n1)
@@ -26,26 +27,47 @@ const FormNewLottery = () => {
                 setN3(client[0].n3)
                 setN4(client[0].n4)
             }
-        }, [userName])
+    }, [userNameSelect])
 
 
     const handleSubmit = async e => {
         e.preventDefault()
         
-        const clientObj = {
-            clientId: clientState.id,
-            n1: n1,
-            n2: n2,
-            n3: n3,
-            n4: n4
-        }
-        
-        if(!userName) {
-            showAlert({
-                msg: 'Selecciona un cliente',
-                error: true
-            })
-            return
+        let clientObj = {};
+
+        if(formNoRegistered) {  // Validación si es con input
+            clientObj = {
+                clientId: Date.now(),
+                n1: n1,
+                n2: n2,
+                n3: n3,
+                n4: n4
+            }
+
+            if(!userNameInput) {
+                showAlert({
+                    msg: 'Todos los campos son obligatorios',
+                    error: true
+                })
+                return
+            } 
+
+        } else { // Validación si es con select
+            clientObj = {
+                clientId: clientState.id,
+                n1: n1,
+                n2: n2,
+                n3: n3,
+                n4: n4
+            }
+
+            if(!userNameSelect) {
+                showAlert({
+                    msg: 'Selecciona un cliente',
+                    error: true
+                })
+                return
+            }
         }
 
         const numbers = [n1, n2, n3, n4];
@@ -66,6 +88,7 @@ const FormNewLottery = () => {
             })
             return
         }
+
         Swal.fire({
             position: 'center',
             icon: 'success',
@@ -77,7 +100,8 @@ const FormNewLottery = () => {
             }
         })
         setClientState({})
-        setUserName('')
+        setUserNameSelect('')
+        setUserNameInput('')
         setN1('')
         setN2('')
         setN3('')
@@ -94,20 +118,36 @@ const FormNewLottery = () => {
             onSubmit={handleSubmit}
         >
             { msg && <AlertApi alert={alert} /> }
-            <legend className="text-center mb-20 text-5xl font-bold">Completa los siguientes campos</legend>
+            <legend className="text-center mb-20 text-5xl font-bold text-gray-200">Completa los siguientes campos</legend>
         
-            <div className="flex flex-col lg:flex-row mb-12">
-                <label className="mb-6 lg:w-1/3" htmlFor="fullName">Seleccionar Cliente:</label>
-                <select name="fullName" id="fullName" onChange={e => setUserName(e.target.value)}
-                    className="py-2 px-5 lg:w-2/3 bg-indigo-600 rounded-lg border border-white hover:cursor-pointer"
-                >
-                <option value="">-- Seleccione --</option>
-                { clients.map(client => (
-                    <option key={client.id} value={client.name}>{client.name}</option>
-                ))}
-                </select>
-            </div>
-                        
+            { formNoRegistered ? (
+                <div className="flex flex-col lg:flex-row mb-16">
+                    <label htmlFor="userName2"
+                        className="lg:w-1/3 mb-4"
+                    >Nombre y Apellido:</label>
+                    <input type="text" 
+                        name="userName2"
+                        id="userName2"
+                        placeholder="Nombre y Apellido"
+                        className="py-2 px-5 lg:w-2/3 bg-indigo-600 rounded-lg border border-white"
+                        value={userNameInput}
+                        onChange={e => setUserNameInput(e.target.value)}
+                    />
+                </div>
+            ) : (
+                <div className="flex flex-col lg:flex-row mb-16">
+                    <label className="mb-6 lg:w-1/3" htmlFor="fullName">Seleccionar Cliente:</label>
+                    <select name="fullName" id="fullName" onChange={e => setUserNameSelect(e.target.value)}
+                        className="py-2 px-5 lg:w-2/3 bg-indigo-600 rounded-lg border border-white hover:cursor-pointer"
+                    >
+                        <option value="">-- Seleccione --</option>
+                        { clients.map(client => (
+                            <option key={client.id} value={client.name}>{client.name}</option>
+                        ))}
+                    </select>
+                </div>
+            )}
+            
             <div className="flex flex-col lg:flex-row">
                 <label className="mb-6 lg:w-1/3" htmlFor="fullName">Números:</label>
                 <div className="flex justify-between flex-wrap gap-y-4 lg:w-2/3">
@@ -130,8 +170,8 @@ const FormNewLottery = () => {
                 </div>
             </div>
             <input type="submit"  value="Cargar Nuevo Loto"
-                    className="uppercase bg-stone-800 font-bold rounded-lg px-4 py-2 mt-20 
-                    hover:cursor-pointer hover:bg-stone-700 transition-colors w-full lg:w-3/4 lg:block mx-auto"
+                    className="uppercase bg-slate-900 font-bold text-4xl rounded-full px-4 py-4 mt-20 
+                    hover:cursor-pointer hover:bg-slate-800 transition-colors w-full lg:w-2/4 lg:block mx-auto"
             />
         </form>
     )

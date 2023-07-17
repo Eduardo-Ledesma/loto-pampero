@@ -13,7 +13,7 @@ const ProtectedLayout = () => {
             <div className="md:flex md:min-h-screen">
                 <Aside />
                 
-                <main className="sm:px-10 pt-20 md:pt-0 flex-1 md:border-l border-white">
+                <main className="sm:px-10 pt-20 mx-4 sm:mx0 md:pt-0 flex-1 md:border-l border-white">
                     <Outlet />
                 </main>
             </div>

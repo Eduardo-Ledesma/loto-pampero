@@ -24,6 +24,7 @@ import EditLottery from './pages/EditLottery'
 import AdminLayout from './layouts/AdminLayout'
 import NewSeller from './pages/NewSeller'
 import EditSeller from './pages/EditSeller'
+import NewLotteryAdmin from './pages/NewLotteryAdmin'
 
 import CloseLottery from './pages/CloseLottery'
 import Winners from './pages/Winners'
@@ -102,6 +103,10 @@ const router = createBrowserRouter([
       {
         path: 'editseller/:sellerId',
         element: <EditSeller />
+      },
+      {
+        path: 'newlotteryadmin',
+        element: <NewLotteryAdmin />
       },
       {
         path: 'closelottery',
