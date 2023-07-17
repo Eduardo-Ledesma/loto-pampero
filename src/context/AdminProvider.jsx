@@ -13,6 +13,9 @@ const AdminProvider = ({children}) => {
     const [showLotteries, setLotteries] = useState([])
     const [lotteryById, setLotteryById] = useState({})
     const [winners, setWinners] = useState({})
+    const [winnersW4, setWinnersW4] = useState([])
+    const [winnersW3, setWinnersW3] = useState([])
+    const [winnersW2, setWinnersW2] = useState([])
 
     const { tokenAdminLS } = useAuth()
     const urlAPI = import.meta.env.VITE_API_LOTO
@@ -190,6 +193,9 @@ const AdminProvider = ({children}) => {
             if(response.ok) {
                 setLotteryById(result.lottery)
                 setWinners(result.winners)
+                setWinnersW4(result.winners.with4)
+                setWinnersW3(result.winners.with3)
+                setWinnersW2(result.winners.with2)
             }
             
         } catch (error) {
@@ -249,7 +255,10 @@ const AdminProvider = ({children}) => {
             showLotteries,
             getLottery,
             lotteryById,
-            winners
+            winners,
+            winnersW4,
+            winnersW3,
+            winnersW2
         }}
     >
         {children}

@@ -196,8 +196,11 @@ const ClientsProvider = ({children}) => {
                     Authorization: `Bearer ${tokenLS}`
                 }
             })
-            const result = await response.json()
-            setLottery(result.plays)
+            if(response.ok) {
+                const result = await response.json()
+                setLottery(result.plays)
+            }
+            
         } catch (error) {
             console.log(error)
         }
@@ -206,7 +209,7 @@ const ClientsProvider = ({children}) => {
     // Agregar lotos nuevos
     const newLottery = async data =>  {
         if(!tokenLS) return
-
+        
         try {
             const response = await fetch(`${urlAPI}/plays`, {
                 method: 'POST',
@@ -216,7 +219,7 @@ const ClientsProvider = ({children}) => {
                     Authorization: `Bearer ${tokenLS}`
                 }
             })
-            
+
             if(!response.ok) {
                 return 1
             } else {

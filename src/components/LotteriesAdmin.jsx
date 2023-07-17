@@ -5,7 +5,7 @@ const LotteriesAdmin = ({lot}) => {
 
     return (
         <>
-            <div className="flex justify-between font-bold p-10 bg-indigo-800 rounded-lg 
+            <div className="flex justify-between font-bold p-10 bg-indigo-800 
             bg-opacity-70 border-b last-of-type:border-0">
                 <p className="">Fecha: <span className="text-amber-500">{formatDate(lot?.date)}</span></p>
 

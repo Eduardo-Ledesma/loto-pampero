@@ -17,7 +17,7 @@ const AdminLogged = () => {
             <h2 className="mt-10 md:mt-0 mb-20 text-6xl font-black text-gray-300 underline 
                 text-center lg:text-left">Vendedores</h2>
             { sellers?.length ? (
-                <table className="w-full mt-10 table-auto bg-indigo-800 rounded-lg bg-opacity-70">
+                <table className="w-full mt-10 table-auto bg-indigo-800 border-2 border-indigo-600 bg-opacity-70">
                     <thead className="bg-indigo-600 bg-opacity-50">
                         <tr>
                             <th className="p-2 font-bold">Vendedor</th>
