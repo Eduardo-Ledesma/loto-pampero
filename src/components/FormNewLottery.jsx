@@ -37,7 +37,7 @@ const FormNewLottery = ({formNoRegistered}) => {
 
         if(formNoRegistered) {  // Validación si es con input
             clientObj = {
-                clientId: Date.now(),
+                clientName: userNameInput,
                 n1: n1,
                 n2: n2,
                 n3: n3,

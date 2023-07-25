@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import AlertApi from "../components/AlertApi";
 import useAdmin from "../hooks/useAdmin";
-import useClients from "../hooks/useClients";
 
 const NewLotteryAdmin = () => {
 
@@ -14,43 +13,48 @@ const NewLotteryAdmin = () => {
     const [n4, setN4] = useState('')
     const [isSeller, setIsSeller] = useState(false)
 
-    const { clients } = useClients()
-    const { sellers, showAlert, alert } = useAdmin()
+    const { sellers, showAlert, alert, getClientsSellers, sellerClients } = useAdmin()
 
-    // Llamo a la api para traerme los clientes asi lleno el select
-    // useEffect(() => {
-    //     const callApi = async () => {
-    //         await getClients()
+    // TODO: agregar value y onchange al input de nombre cliente
+    const handleChange = async e => {
+        setSellerSelect(+e.target.value)
+        setClientState({})
+        setN1('')
+        setN2('')
+        setN3('')
+        setN4('')
 
-    //     }
-    //     callApi()
-    // }, [])
-
-    // Mostrar o no el segundo select
-    const handleChange = e => {
-        setSellerSelect(e.target.value)
-        e.target.value === 'administrador' || e.target.value === '' ? setIsSeller(false) : setIsSeller(true)
-    }
-    
-    // rellenar los campos si elige un cliente ya registrado
-    // useEffect(() => {
-    //     const client = clients.filter(client => client.name === clientSelect)
-    //     if(client.length) {
-    //         setClientState(client[0])
-    //         setN1(client[0].n1)
-    //         setN2(client[0].n2)
-    //         setN3(client[0].n3)
-    //         setN4(client[0].n4)
-    //     }
+        // Mostrar o no el segundo select
+        if(e.target.value === '') {
+            setIsSeller(false)
+            return
+        }
         
-    // }, [clientSelect])
+        setIsSeller(true)
+        // Llamo a la api para traerme los clientes asi lleno el select
+        await getClientsSellers(+e.target.value)
+    }
 
-    const handleSubmit = () => {
+    useEffect(() => {
+        if(sellerClients.length) {
+            const clientSelected = sellerClients.find( client => client.name === clientSelect)
+            if(clientSelected?.name) {
+                setClientState(clientSelected)
+                setN1(clientSelected.n1)
+                setN2(clientSelected.n2)
+                setN3(clientSelected.n3)
+                setN4(clientSelected.n4)
+            }
+        }
+    }, [clientSelect])
+
+    const handleSubmit = async e => {
+        e.preventDefault()
         console.log('enviando')
     }
 
     const { msg } = alert
-
+    
     return (
         <form 
             onSubmit={handleSubmit}
@@ -64,28 +68,33 @@ const NewLotteryAdmin = () => {
                 <select name="fullName" id="fullName" onChange={e => handleChange(e)}
                     className="py-2 px-5 lg:w-2/3 bg-indigo-600 rounded-lg border border-white hover:cursor-pointer"
                 >
-                    <option value="">-- Seleccione --</option>
-                    <option value="administrador">Administrador</option>
+                    <option value="">Administrador</option>
                     { sellers.map(sell => (
-                        <option key={sell.id} value={sell.name}>{sell.name}</option>
+                        <option key={sell.id} value={sell.id}>{sell.name}</option>
                     ))}
                 </select>
             </div>
 
-            { isSeller && 
+            { isSeller ? (
                 <div className="flex flex-col lg:flex-row mb-16">
                     <label className="mb-6 lg:w-1/3" htmlFor="fullName">Seleccionar Cliente:</label>
                     <select name="fullName" id="fullName" onChange={e => setClientSelect(e.target.value)}
                         className="py-2 px-5 lg:w-2/3 bg-indigo-600 rounded-lg border border-white hover:cursor-pointer"
                     >
                         <option value="">-- Seleccione --</option>
-                        {/* { clients.map(client => (
+                        { sellerClients.map(client => (
                             <option key={client.id} value={client.name}>{client.name}</option>
-                        ))} */}
+                        ))}
                     </select>
                 </div>
-            }
-            
+            ) : (
+                <div className="flex flex-col lg:flex-row mb-16">
+                    <label className="mb-6 lg:w-1/3" htmlFor="name">Nombre del Cliente:</label>
+                    <input type="text" name="name" id="name" placeholder="Nombre y apellido del cliente"
+                        className="py-2 px-5 lg:w-2/3 bg-indigo-600 rounded-lg border border-white"
+                    />
+                </div>
+            )}
             
             <div className="flex flex-col lg:flex-row">
                 <label className="mb-6 lg:w-1/3" htmlFor="fullName">Números:</label>

@@ -57,7 +57,6 @@ const ClientsProvider = ({children}) => {
                 logout()
                 return
             }
-            console.log(result);
             setNoClients(false)
             setClients(result.clients);
         } catch (error) {
@@ -214,8 +213,7 @@ const ClientsProvider = ({children}) => {
     // Agregar lotos nuevos
     const newLottery = async data =>  {
         if(!tokenLS) return
-        console.log(data);
-        return
+
         try {
             const response = await fetch(`${urlAPI}/plays`, {
                 method: 'POST',

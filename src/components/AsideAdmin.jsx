@@ -1,6 +1,7 @@
 import { Link, Navigate } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
 import Swal from 'sweetalert2'
+import 'animate.css'
 
 const AsideAdmin = () => {
 
@@ -26,26 +27,26 @@ const AsideAdmin = () => {
         <>
             { tokenAdmin.length || tokenAdminLS.length ? authLS.role === 1 ? (
                 <aside className="mx-8 text-center md:text-left border-b-2 md:border-none pb-20 md:p-0 md:w-1/3 lg:w-1/5">
-                    <h2 className="text-4xl pt-1 font-bold">Bienvenido/a {authLS.name}!</h2>
+                    <h2 className="text-4xl pt-1 font-bold animate__animated animate__pulse animate__repeat-2">Bienvenido/a {authLS.name}!</h2>
     
                     <nav>
                         <Link to="newseller"
                             className="bg-sky-600 py-4 rounded-lg text-3xl block max-w-md mx-auto md:max-w-full
-                            text-center uppercase font-bold mt-20 hover:bg-sky-700 transition-colors"
+                            text-center uppercase font-bold mt-20 hover:bg-sky-700 transition-colors animate__animated animate__fadeInDown"
                         >
                             Crear Vendedor
                         </Link>
 
                         <Link to="newlotteryadmin"
                             className="bg-sky-600 py-4 rounded-lg text-3xl block max-w-md mx-auto md:max-w-full 
-                            text-center uppercase font-bold mt-12 hover:bg-sky-700 transition-colors"
+                            text-center uppercase font-bold mt-12 hover:bg-sky-700 transition-colors animate__animated animate__fadeInLeft"
                         >
                             Cargar Loto
                         </Link>
         
                         <Link to="closelottery"
                             className="bg-sky-600 py-4 rounded-lg text-3xl block max-w-md mx-auto md:max-w-full 
-                            text-center uppercase font-bold mt-12 hover:bg-sky-700 transition-colors"
+                            text-center uppercase font-bold mt-12 hover:bg-sky-700 transition-colors animate__animated animate__fadeInUp"
                         >
                             Finalizar Sorteo
                         </Link>
@@ -59,7 +60,7 @@ const AsideAdmin = () => {
 
                     <button
                         type="button"
-                        className="bg-red-700 p-3 rounded-lg text-3xl font-bold mt-12 hover:bg-red-900 transition-colors flex items-center gap-2"
+                        className="bg-red-700 p-3 rounded-lg text-3xl font-bold mt-12 hover:bg-red-900 transition-colors flex mx-auto md:mx-0 items-center gap-2"
                         onClick={handleClick}
                     >
                         Cerrar Sesión

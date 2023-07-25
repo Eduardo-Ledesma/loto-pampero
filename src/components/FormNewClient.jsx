@@ -39,6 +39,16 @@ const FormNewClient = () => {
             return
         } 
 
+        const numbers = [n1, n2, n3, n4];
+        const uniqueNumbers = new Set(numbers);
+        if (uniqueNumbers.size < numbers.length) {
+            showAlert({
+                msg: 'Asegúrate de que los números no se repitan',
+                error: true
+            });
+            return;
+        }
+
         const result = await submitClient({id,name,n1,n2,n3,n4})
         if(result === 1) {
             showAlert({

@@ -16,6 +16,7 @@ const AdminProvider = ({children}) => {
     const [winnersW4, setWinnersW4] = useState([])
     const [winnersW3, setWinnersW3] = useState([])
     const [winnersW2, setWinnersW2] = useState([])
+    const [sellerClients, setSellerClients] = useState([]) 
 
     const { tokenAdminLS } = useAuth()
     const urlAPI = import.meta.env.VITE_API_LOTO
@@ -45,8 +46,6 @@ const AdminProvider = ({children}) => {
         if(!tokenAdminLS) return
         
         try {
-            if(!tokenAdminLS) return
-            
             const response = await fetch(`${urlAPI}/admin/2`, {
                 headers: {
                     "Content-Type": "application/json",
@@ -56,6 +55,27 @@ const AdminProvider = ({children}) => {
             const result = await response.json()
             setNoSellers(false)
             setSellers(result.users);
+        } catch (error) {
+            console.log(error)
+            setNoSellers(true)
+        }
+    }
+
+    const getClientsSellers = async id => {
+
+        try {
+            const response = await fetch(`${urlAPI}/clients/seller/${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${tokenAdminLS}`
+                }
+            })
+            if(!response.ok) {
+                console.log(response)
+                return
+            }
+            const result = await response.json()
+            setSellerClients(result.clients)
         } catch (error) {
             console.log(error)
             setNoSellers(true)
@@ -240,6 +260,35 @@ const AdminProvider = ({children}) => {
         }
     } 
 
+    const deleteLottery = async id => {
+        if(!tokenAdminLS) return
+
+        try {
+            const response = await fetch(`${urlAPI}/lottery/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${tokenAdminLS}`
+                }            
+            })
+            if(response.ok) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Sorteo eliminado!',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                return 1
+            } else {
+                console.log(response);
+                return 2
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     
     return <AdminContext.Provider
         value={{
@@ -260,6 +309,9 @@ const AdminProvider = ({children}) => {
             winnersW4,
             winnersW3,
             winnersW2,
+            deleteLottery,
+            getClientsSellers,
+            sellerClients
         }}
     >
         {children}

@@ -44,7 +44,7 @@ const NewLottery = () => {
             </p>
         )} 
 
-        <div className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-3/4 mx-auto p-10 bg-opacity-70 mb-20">
+        <div className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-3/4 mx-auto p-10 bg-opacity-70 mb-20 animate__animated animate__fadeIn">
             <FormNewLottery 
                 formNoRegistered={formNoRegistered}
             />

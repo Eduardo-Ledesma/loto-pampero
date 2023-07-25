@@ -3,12 +3,14 @@ import { useNavigate, useParams } from "react-router-dom"
 import Winners4 from "../components/Winners4"
 import useAdmin from "../hooks/useAdmin"
 import formatDate from "../helpers/FormatDate"
+import Swal from "sweetalert2"
 
 const Winners = () => {
 
-    const { getLottery, lotteryById, winnersW4, winnersW3, winnersW2 } = useAdmin()
+    const { getLottery, lotteryById, winnersW4, winnersW3, winnersW2, deleteLottery } = useAdmin()
     const navigate = useNavigate()
     const params = useParams()
+    const { n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20 } = lotteryById
 
     useEffect(() => {
         if(params.id) {
@@ -16,14 +18,54 @@ const Winners = () => {
         }
     }, [params])
 
-    const { n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20 } = lotteryById
+    const handleClick = async id => {
+        Swal.fire({
+            title: 'Deseas Eliminar el Sorteo?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, Eliminar',
+            confirmButtonAriaLabel: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+            cancelButtonAriaLabel: 'Cancelar',
+        }).then( async (result) => {
+            if (result.isConfirmed) {
+                const result = await deleteLottery(id)
+                if(result === 2) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Ocurrió un error',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+                setTimeout(() => {
+                    navigate('/adminlogged')
+                }, 2100);
+            }
+        })
+    }
 
     return (
         <>
             { lotteryById?.date ? (
-                <h2 className="mt-10 md:mt-0 mb-20 text-6xl font-black text-gray-200 text-center lg:text-left">
-                    Sorteo del <span className="text-sky-600">{formatDate(lotteryById.date)}</span>
-                </h2>
+                <>
+                    <h2 className="mt-10 md:mt-0 text-6xl font-black text-gray-200 text-center md:text-left">
+                        Sorteo del <span className="text-sky-600">{formatDate(lotteryById.date)}</span>
+                    </h2>
+                    <button
+                        className="bg-red-600 hover:bg-red-700 transition-colors px-4 py-2 rounded-lg uppercase font-bold 
+                        text-2xl sm:text-3xl flex mx-auto md:mx-0 items-center gap-1 mt-14 mb-20"
+                        onClick={() => handleClick(params?.id)}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-7 h-7">
+                            <path fillRule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clipRule="evenodd" />
+                        </svg>
+                        Eliminar
+                    </button>
+                </>
             ) : (
                 'Cargando'
             )}
@@ -40,7 +82,7 @@ const Winners = () => {
                 </button>
             </div>
 
-            <article className="bg-gray-800 border-2 border-gray-600 rounded-md px-10 py-6 mx-6 sm:mx-auto">
+            <article className="bg-gray-800 border-2 border-gray-600 rounded-md px-10 py-6 mx-6 mb-4 sm:mx-auto">
                 <section className="">
                     <h3 className="font-bold text-5xl text-sky-400 mb-12 text-center">Números</h3>
                     <ul className="flex gap-6 justify-center flex-wrap font-bold text-5xl mb-4">
