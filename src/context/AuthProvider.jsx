@@ -11,6 +11,7 @@ const AuthProvider = ({children}) => {
     const [tokenLS, setTokenLS] = useState('')
     const [tokenAdminLS, setTokenAdminLS] = useState('')
     const [alertConection, setAlertConection] = useState({})
+    const [loading, setLoading] = useState(false)
 
     const urlAPI = import.meta.env.VITE_API_LOTO
 
@@ -21,6 +22,7 @@ const AuthProvider = ({children}) => {
     }, [auth])
 
     const loginAction = async (data) => {
+        setLoading(true)
         try {
             const response = await fetch(`${urlAPI}/users/login`, {
                 method: 'POST',
@@ -30,16 +32,17 @@ const AuthProvider = ({children}) => {
                 }
             })
             const result = await response.json()
+            setLoading(false)
             return result
         } catch (error) {
-            console.log(error);
+            setLoading(false)
             setAlertConection({
                 msg: 'Lo sentimos, ocurrió un error',
                 error: true
             })
             setTimeout(() => {
                 setAlertConection({})
-            }, 6000);
+            }, 5000);
         }
     }
     
@@ -69,7 +72,8 @@ const AuthProvider = ({children}) => {
             alertConection,
             setTokenAdmin,
             tokenAdmin,
-            tokenAdminLS
+            tokenAdminLS,
+            loading
         }}>
             {children}
         </AuthContext.Provider> 

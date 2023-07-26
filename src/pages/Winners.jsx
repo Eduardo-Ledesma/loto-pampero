@@ -4,6 +4,7 @@ import Winners4 from "../components/Winners4"
 import useAdmin from "../hooks/useAdmin"
 import formatDate from "../helpers/FormatDate"
 import Swal from "sweetalert2"
+import { ClipLoader } from "react-spinners";
 
 const Winners = () => {
 
@@ -32,18 +33,11 @@ const Winners = () => {
         }).then( async (result) => {
             if (result.isConfirmed) {
                 const result = await deleteLottery(id)
-                if(result === 2) {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: 'Ocurrió un error',
-                        showConfirmButton: false,
-                        timer: 2000
-                    })
+                if(result) {
+                    setTimeout(() => {
+                        navigate('/adminlogged')
+                    }, 2100);
                 }
-                setTimeout(() => {
-                    navigate('/adminlogged')
-                }, 2100);
             }
         })
     }
@@ -67,7 +61,10 @@ const Winners = () => {
                     </button>
                 </>
             ) : (
-                'Cargando'
+                <div className="flex gap-4 justify-center items-center pb-6">
+                    <p>Cargando...</p>
+                    <ClipLoader color="rgba(10, 148, 120, 1)" />
+                </div>
             )}
             
 

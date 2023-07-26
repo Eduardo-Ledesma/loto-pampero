@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import FormNewClient from "../components/FormNewClient"
 import useClients from "../hooks/useClients"
+import { ClipLoader } from "react-spinners"
 
 const EditClient = () => {
 
@@ -28,7 +29,10 @@ const EditClient = () => {
             </div>
 
             {loading ? (
-                <p>Cargando los Datos</p>
+                <div className="flex gap-4 justify-center items-center pb-6">
+                    <p>Cargando...</p>
+                    <ClipLoader color="rgba(10, 148, 120, 1)" />
+                </div>
             ) : (
                 <FormNewClient />
             )}

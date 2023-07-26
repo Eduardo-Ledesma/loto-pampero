@@ -13,8 +13,9 @@ const ClientsProvider = ({children}) => {
     const [loading, setLoading] = useState(false)
     const [noClients, setNoClients] = useState(false)
     const [lottery, setLottery] = useState([])
+    const [error, setError] = useState(false)
 
-    const { tokenLS, logout, tokenAdminLS } = useAuth()
+    const { tokenLS, logout } = useAuth()
     const urlAPI = import.meta.env.VITE_API_LOTO
 
     const showAlert = alert => {
@@ -41,10 +42,7 @@ const ClientsProvider = ({children}) => {
     const getClients = async () => {
         try {
             if(!tokenLS) return
-            // let token;
-            // tokenLS.length ? token = tokenLS : token = false 
-            // tokenAdminLS.length ? token = tokenAdminLS : token = false 
-            
+            setError(false)
 
             const response = await fetch(`${urlAPI}/clients`, {
                 headers: {
@@ -60,8 +58,8 @@ const ClientsProvider = ({children}) => {
             setNoClients(false)
             setClients(result.clients);
         } catch (error) {
-            console.log(error)
             setNoClients(true)
+            setError(true)
         }
     }
 
@@ -77,7 +75,7 @@ const ClientsProvider = ({children}) => {
 
     // Nuevos clientes
     const addClient = async (client) => {
-        
+        if(!tokenLS) return
 
         try {
             const response = await fetch(`${urlAPI}/clients`, {
@@ -117,8 +115,9 @@ const ClientsProvider = ({children}) => {
     // Obtener un cliente en específico para editarlo
     const getClient = async (id) => {
         if(!tokenLS) return
-
         setLoading(true)
+        setError(false)
+
         try {
             const response = await fetch(`${urlAPI}/clients/${id}`, {
                 headers: {
@@ -129,8 +128,9 @@ const ClientsProvider = ({children}) => {
             const client = await response.json()
             setClient(client.client)
             setLoading(false)
+            setError(false)
         } catch (error) {
-            console.log(error);
+            setError(true)
         } 
     }
 
@@ -164,7 +164,6 @@ const ClientsProvider = ({children}) => {
             }
             
         } catch (error) {
-            console.error(error)
             showError()
         }
     }
@@ -172,6 +171,7 @@ const ClientsProvider = ({children}) => {
     // Eliminar cliente
     const deleteClient = async id => {
         if(!tokenLS) return
+        setError(false)
         
         try {
             await fetch(`${urlAPI}/clients/${id}`, {
@@ -183,10 +183,20 @@ const ClientsProvider = ({children}) => {
             })
             const updatedClients = clients.filter(client => client.id !== id)
             setClients(updatedClients)
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Cliente eliminado!',
+                showConfirmButton: false,
+                timer: 2000
+            })
             showLottery()
         } catch (error) {
             console.log(error)
             showError()
+            setTimeout(() => {
+                setError(true)
+            }, 2500);
         }
     }
     
@@ -206,7 +216,6 @@ const ClientsProvider = ({children}) => {
             }
             
         } catch (error) {
-            console.log(error)
         }
     }
 
@@ -227,10 +236,19 @@ const ClientsProvider = ({children}) => {
             if(!response.ok) {
                 return 1
             } else {
-                return 2
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Loto Agregado Correctamente!',
+                    showConfirmButton: false,
+                    timer: 2400,
+                    customClass: {
+                        popup: `${styles.sweetEdit}`
+                    }
+                })
             }
         } catch (error) {
-            console.log(error);
+            setError(true)
         }
     }
 
@@ -247,8 +265,18 @@ const ClientsProvider = ({children}) => {
             })
             const updatedLottery = lottery.filter( lot => lot.id !== id)
             setLottery(updatedLottery)
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Loto eliminado!',
+                showConfirmButton: false,
+                timer: 2000
+            })
         } catch (error) {
-            console.log(error);
+            showError()
+            setTimeout(() => {
+                setError(true)
+            }, 2500);
         }
     }
 
@@ -270,7 +298,8 @@ const ClientsProvider = ({children}) => {
                 showLottery,
                 lottery,
                 newLottery,
-                deleteLottery
+                deleteLottery,
+                error
             }}
         >
             {children}

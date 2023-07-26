@@ -4,6 +4,7 @@ import styles from '../css/Form.module.css'
 import useAuth from "../hooks/useAuth";
 import Alert from "../components/Alert";
 import AlertApi from "../components/AlertApi";
+import { ClipLoader } from "react-spinners";
 
 const Login = () => {
 
@@ -11,7 +12,7 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [alert, setAlert] = useState({})
 
-    const { auth, setAuth, authLS, token, setToken, tokenLS, loginAction, alertConection, setTokenAdmin } = useAuth()
+    const { auth, setAuth, authLS, token, setToken, tokenLS, loginAction, alertConection, setTokenAdmin, loading } = useAuth()
 
     const handleSubmit = async e => {
         e.preventDefault()
@@ -72,7 +73,7 @@ const Login = () => {
                             <legend className={styles.form_legend}>Inicie Sesión para continuar</legend>
 
                             { msg && <Alert alert={alert} />}
-                            { alertConection.msg && <AlertApi alert={alertConection.msg} />}
+                            { alertConection.msg && <AlertApi alertConection={alertConection} />}
                             <div className={styles.form_div}>
                                 <label htmlFor="email">Email</label>
                                 <input type="email" name="email" id="email" placeholder="Email" 
@@ -89,10 +90,17 @@ const Login = () => {
                                 <input 
                                     className={styles.loginBtn} 
                                     type="submit" 
-                                    value="Iniciar Sesión"  
+                                    value="Iniciar Sesión"
+                                    disabled={ loading || alertConection.msg ? true : false }  
                                 />
                             </div>
-                        </fieldset>   
+
+                            { loading &&  (
+                                <div className="flex mt-4 justify-center">
+                                    <ClipLoader color="rgba(10, 148, 120, 1)" />
+                                </div>
+                            )}
+                        </fieldset>
                     </form>
 
                     <nav className={styles.nav}>

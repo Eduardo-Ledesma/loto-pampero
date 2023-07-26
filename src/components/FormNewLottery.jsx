@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useClients from "../hooks/useClients";
-import Swal from "sweetalert2";
 import AlertApi from "./AlertApi"
-import styles from '../css/HeaderNav.module.css'
 
 const FormNewLottery = ({formNoRegistered}) => {
 
@@ -89,16 +87,6 @@ const FormNewLottery = ({formNoRegistered}) => {
             return
         }
 
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Loto Agregado Correctamente!',
-            showConfirmButton: false,
-            timer: 2400,
-            customClass: {
-                popup: `${styles.sweetEdit}`
-            }
-        })
         setClientState({})
         setUserNameSelect('')
         setUserNameInput('')

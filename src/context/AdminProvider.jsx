@@ -16,7 +16,8 @@ const AdminProvider = ({children}) => {
     const [winnersW4, setWinnersW4] = useState([])
     const [winnersW3, setWinnersW3] = useState([])
     const [winnersW2, setWinnersW2] = useState([])
-    const [sellerClients, setSellerClients] = useState([]) 
+    const [sellerClients, setSellerClients] = useState([])
+    const [error, setError] = useState(false) 
 
     const { tokenAdminLS } = useAuth()
     const urlAPI = import.meta.env.VITE_API_LOTO
@@ -44,6 +45,7 @@ const AdminProvider = ({children}) => {
     // Obtener los vendedores para el admin
     const getSellersAdmin = async () => {
         if(!tokenAdminLS) return
+        setError(false)
         
         try {
             const response = await fetch(`${urlAPI}/admin/2`, {
@@ -53,15 +55,15 @@ const AdminProvider = ({children}) => {
                 }
             })
             const result = await response.json()
-            setNoSellers(false)
+            setError(false)
             setSellers(result.users);
         } catch (error) {
-            console.log(error)
-            setNoSellers(true)
+            setError(true)
         }
     }
 
     const getClientsSellers = async id => {
+        setError(false)
 
         try {
             const response = await fetch(`${urlAPI}/clients/seller/${id}`, {
@@ -77,15 +79,18 @@ const AdminProvider = ({children}) => {
             const result = await response.json()
             setSellerClients(result.clients)
         } catch (error) {
-            console.log(error)
-            setNoSellers(true)
+            showError()
+            setTimeout(() => {
+                setError(true)
+            }, 2500)
         }
     }
     
     // Nuevos clientes
     const addSeller = async (seller) => {
         if(!tokenAdminLS) return
-        
+        setError(false)
+
         try {
             const response = await fetch(`${urlAPI}/admin/`, {
                 method: 'POST',
@@ -96,7 +101,6 @@ const AdminProvider = ({children}) => {
                 }
             })
             
-            // setSellers([...sellers, result.users])
             if(response.ok) {
                 Swal.fire({
                     position: 'center',
@@ -111,16 +115,18 @@ const AdminProvider = ({children}) => {
             } else {
                 showError()
             }
-
         } catch (error) {
-            console.log(error);
             showError()
+            setTimeout(() => {
+                setError(true)
+            }, 2500);
         }
     }
 
     // Confirmar editar cliente
     const editSeller = async (seller) => {
         if(!tokenAdminLS) return
+        setError(false)
 
         try {
             const result = await fetch(`${urlAPI}/admin/${seller.id}`, {
@@ -155,17 +161,20 @@ const AdminProvider = ({children}) => {
                     }
                 })
             }
-            
+            setError(false)
         } catch (error) {
-            console.error(error);
             showError()
+            setTimeout(() => {
+                setError(true)
+            }, 2500)
         }
     }
 
     // Eliminar cliente
     const deleteSeller = async id => {
         if(!tokenAdminLS) return
-        
+        setError(false)
+
         try {
             await fetch(`${urlAPI}/admin/${id}`, {
                 method: 'DELETE',
@@ -176,9 +185,18 @@ const AdminProvider = ({children}) => {
             })
             const updatedSellers = sellers.filter(seller => seller.id !== id)
             setSellers(updatedSellers)
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Vendedor eliminado!',
+                showConfirmButton: false,
+                timer: 2000
+            })
         } catch (error) {
-            console.log(error);
             showError()
+            setTimeout(() => {
+                setError(true)
+            }, 2500);
         }
     }
 
@@ -201,7 +219,8 @@ const AdminProvider = ({children}) => {
 
     const getLottery = async id => {
         if(!tokenAdminLS) return
-        
+        setError(false)
+
         try {
             const response = await fetch(`${urlAPI}/lottery/${id}`, {
                 headers: {
@@ -219,7 +238,10 @@ const AdminProvider = ({children}) => {
             }
             
         } catch (error) {
-            console.log(error)
+            showError()
+            setTimeout(() => {
+                setError(true)
+            }, 2500)
         }
     }
 
@@ -255,8 +277,10 @@ const AdminProvider = ({children}) => {
             }
 
         } catch (error) {
-            console.log(error)
-            return 2
+            showError()
+            setTimeout(() => {
+                setError(true)
+            }, 2500)  
         }
     } 
 
@@ -281,11 +305,20 @@ const AdminProvider = ({children}) => {
                 })
                 return 1
             } else {
-                console.log(response);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Ocurrió un error',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
                 return 2
             }
         } catch (error) {
-            console.log(error)
+            showError()
+            setTimeout(() => {
+                setError(true)
+            }, 2500)
         }
     }
 
@@ -311,7 +344,8 @@ const AdminProvider = ({children}) => {
             winnersW2,
             deleteLottery,
             getClientsSellers,
-            sellerClients
+            sellerClients,
+            error
         }}
     >
         {children}

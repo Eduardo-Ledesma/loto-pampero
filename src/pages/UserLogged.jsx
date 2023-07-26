@@ -6,7 +6,7 @@ import useClients from "../hooks/useClients"
 
 const Userlogged = () => {
 
-    const { clients, setClient, getClients, noClients, showLottery, lottery } = useClients()
+    const { clients, setClient, getClients, showLottery, lottery } = useClients()
 
     useEffect(() => {
         setClient({})
@@ -22,9 +22,9 @@ const Userlogged = () => {
                 <table className="w-full mt-10 table-auto bg-indigo-800 rounded-lg bg-opacity-70">
                     <thead className="bg-indigo-600 bg-opacity-50">
                         <tr>
-                            <th className="p-2 font-bold">Cliente</th>
-                            <th className="p-2 font-bold">Números</th>
-                            <th className="p-2 font-bold">Acciones</th>
+                            <th className="p-2 text-2xl sm:text-4xl font-bold">Cliente</th>
+                            <th className="p-2 text-2xl sm:text-4xl font-bold">Números</th>
+                            <th className="p-2 text-2xl sm:text-4xl font-bold">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,19 +36,16 @@ const Userlogged = () => {
                         ))}
                     </tbody>
                 </table>
-            ) : noClients ? ( <p className="text-center text-5xl mt-10">Lo sentimos, ocurrió un error inesperado...</p> 
-            ) : (
-                <p className="text-center mt-10">Aún no tienes clientes registrados</p>
-            )}
+            ) : <p className="text-center mt-10">Aún no tienes clientes registrados.</p> }
 
             <h2 className="mt-14 md:mt-20 mb-20 text-6xl font-black underline text-center lg:text-left">Lotos de la Semana</h2>
             {lottery?.length ? (
                 <table className="w-full my-10 table-auto bg-indigo-800 rounded-lg bg-opacity-70">
                 <thead className="bg-indigo-600 bg-opacity-50">
                     <tr>
-                        <th className="p-2 font-bold">Cliente</th>
-                        <th className="p-2 font-bold">Números</th>
-                        <th className="p-2 font-bold">Acciones</th>
+                        <th className="p-2 text-2xl sm:text-4xl font-bold">Cliente</th>
+                        <th className="p-2 text-2xl sm:text-4xl font-bold">Números</th>
+                        <th className="p-2 text-2xl sm:text-4xl font-bold">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,7 +58,7 @@ const Userlogged = () => {
                 </tbody>
             </table>
             ) : (
-                <p className="text-center mt-10">Aún no tienes lotos creados</p>
+                <p className="text-center mt-10">Aún no tienes lotos creados.</p>
             )}
         </>
     )

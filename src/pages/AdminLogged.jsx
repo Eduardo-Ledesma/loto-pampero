@@ -5,7 +5,7 @@ import useAdmin from "../hooks/useAdmin"
 
 const AdminLogged = () => {
 
-    const { sellers, getSellersAdmin, noSellers, getLotteries, showLotteries } = useAdmin()
+    const { sellers, getSellersAdmin, getLotteries, showLotteries } = useAdmin()
 
     useEffect(() => {
         getSellersAdmin()
@@ -20,9 +20,9 @@ const AdminLogged = () => {
                 <table className="w-full mt-10 table-auto bg-indigo-800 border-2 border-indigo-600 bg-opacity-70">
                     <thead className="bg-indigo-600 bg-opacity-50">
                         <tr>
-                            <th className="p-2 font-bold">Vendedor</th>
-                            <th className="p-2 font-bold">Email</th>
-                            <th className="p-2 font-bold">Acciones</th>
+                            <th className="p-2 text-2xl sm:text-4xl font-bold">Vendedor</th>
+                            <th className="p-2 text-2xl sm:text-4xl font-bold">Email</th>
+                            <th className="p-2 text-2xl sm:text-4xl font-bold">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,10 +34,7 @@ const AdminLogged = () => {
                         ))}
                     </tbody>
                 </table>
-            ) : noSellers ? ( <p className="text-center text-5xl mt-10">Lo sentimos, ocurrió un error inesperado...</p> 
-            ) : (
-                <p className="text-center mt-10">Aún no tienes vendedores registrados</p>
-            )}
+            ) : <p className="text-center mt-10 font-bold text-gray-200">Aún no tienes vendedores registrados</p>}
 
             { showLotteries?.length ? (
                 <section className="mt-20">

@@ -53,7 +53,7 @@ const FormNewSeller = () => {
             await editSeller({name,email,password,id})
             
         } else { // No tiene id asi que creo un vendedor nuevo
-            if([name,email,password,repeatPassword].includes('') || !name.trim() || !password.trim() || !repeatPassword.trim()) {
+            if(!name.trim() || !password.trim() || !repeatPassword.trim()) {
                 showAlert({
                     msg: 'Todos los campos son obligatorios',
                     error: true
@@ -76,8 +76,6 @@ const FormNewSeller = () => {
             }
     
             await addSeller({name,email,password})
-            
-            
         }
         
         setId(null)
@@ -98,7 +96,7 @@ const FormNewSeller = () => {
             noValidate
             className="bg-indigo-700 rounded-lg lg:w-full 2xl:w-3/4 mx-auto p-10 bg-opacity-70 mb-20"
         >
-            { msg && <AlertApi alert={alert} /> }
+            { msg && <AlertApi alertConection={alert} /> }
             <legend className="text-center mb-20 text-5xl font-bold">Completa los siguientes campos</legend>
 
             <div className="flex flex-col lg:flex-row mb-12">

@@ -104,8 +104,8 @@ const FormEditSeller = () => {
             </div>
 
             <input type="submit"  value='Guardar Cambios'
-                    className="uppercase bg-amber-600 font-bold rounded-lg px-4 py-2 mb-4 mt-20 
-                    hover:cursor-pointer hover:bg-amber-700 transition-colors w-full lg:w-3/4 lg:block mx-auto"
+                    className="uppercase bg-slate-900 font-bold text-4xl rounded-full px-4 py-4 mt-20 
+                    hover:cursor-pointer hover:bg-slate-800 transition-colors w-full lg:w-2/4 lg:block mx-auto"
             />
         </form>
     )
